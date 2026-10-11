@@ -10,13 +10,7 @@
     darkMode: 'class',
     theme: {
       extend: {
-        colors: {
-          bg: '#0f0f14',
-          panel: '#18181f',
-          border: '#27272f',
-          accent: '#7c5cff',
-          accent2: '#4ade80',
-        },
+        colors: { bg: '#0f0f14', panel: '#18181f', border: '#27272f', accent: '#7c5cff', accent2: '#4ade80' },
         fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
       }
     }
@@ -31,15 +25,63 @@
   .nav-item:hover { background:#0f0f14; color:#e5e7eb; }
   .nav-item.active { background:rgba(124,92,255,0.15); color:#a78bfa; font-weight:600; }
   #xpBar, #hpBar { transition: width 0.4s ease-out; }
-  .toast { position:fixed; bottom:1.5rem; right:1.5rem; background:#18181f; border:1px solid #27272f; padding:0.75rem 1rem; border-radius:0.5rem; font-size:0.875rem; z-index:100; animation:slideIn 0.3s ease-out; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
+  .toast { position:fixed; bottom:1.5rem; right:1.5rem; background:#18181f; border:1px solid #27272f; padding:0.75rem 1rem; border-radius:0.5rem; font-size:0.875rem; z-index:100; animation:slideIn 0.3s ease-out; box-shadow:0 10px 30px rgba(0,0,0,0.4); max-width:320px; }
   @keyframes slideIn { from { transform:translateX(100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
   .loader { border:3px solid #27272f; border-top:3px solid #7c5cff; border-radius:50%; width:40px; height:40px; animation:spin 0.8s linear infinite; margin:2rem auto; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .habit-card { transition: all 0.2s; }
+  .habit-card:hover { transform: translateY(-2px); border-color: #7c5cff; }
+  .habit-card.done { opacity: 0.6; border-color: #4ade80; }
+  .task-item { transition: all 0.15s; }
+  .task-item:hover { background: #1f1f28; }
+  .task-item.done { opacity: 0.5; text-decoration: line-through; }
+  .modal-backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+  .pop-anim { animation: pop 0.4s ease-out; }
+  @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+  .checkbox-custom { width: 22px; height: 22px; border: 2px solid #4b5563; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
+  .checkbox-custom:hover { border-color: #7c5cff; }
+  .checkbox-custom.checked { background: #4ade80; border-color: #4ade80; color: white; }
+  .filter-btn { padding: 0.4rem 0.9rem; border-radius: 0.5rem; font-size: 0.8rem; color: #9ca3af; background: transparent; border: 1px solid transparent; transition: all 0.15s; cursor: pointer; }
+  .filter-btn:hover { background: #18181f; color: #e5e7eb; }
+  .filter-btn.active { background: rgba(124,92,255,0.15); color: #a78bfa; border-color: rgba(124,92,255,0.3); font-weight: 600; }
+  .subtask { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; font-size: 0.85rem; }
+  .subtask input[type="checkbox"] { accent-color: #7c5cff; }
+  .subtask.done label { text-decoration: line-through; opacity: 0.5; }
+  .mood-btn { font-size: 2rem; padding: 0.5rem; border-radius: 0.75rem; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .mood-btn:hover { transform: scale(1.15); }
+  .mood-btn.selected { border-color: #7c5cff; background: rgba(124,92,255,0.15); }
+  .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; }
+  .cal-day:hover { background: #27272f; }
+  .cal-day.has-entry { background: rgba(124,92,255,0.2); }
+  .cal-day.today { border: 2px solid #7c5cff; font-weight: bold; }
+  .tag-pill { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.7rem; background: rgba(124,92,255,0.15); color: #a78bfa; margin-right: 0.25rem; margin-bottom: 0.25rem; }
+  .note-card { transition: all 0.2s; cursor: pointer; }
+  .note-card:hover { transform: translateY(-2px); border-color: #7c5cff; }
+  .note-card.pinned { border-color: #fbbf24; }
+  .folder-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.6rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.85rem; color: #9ca3af; transition: all 0.15s; }
+  .folder-item:hover { background: #0f0f14; color: #e5e7eb; }
+  .folder-item.active { background: rgba(124,92,255,0.15); color: #a78bfa; font-weight: 600; }
+  .progress-bar { height: 8px; background: #0f0f14; border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #7c5cff, #4ade80); transition: width 0.5s ease-out; }
+  .tx-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #27272f; background: #18181f; }
+  .tx-item.income { border-left: 3px solid #4ade80; }
+  .tx-item.expense { border-left: 3px solid #ef4444; }
+  .markdown-preview h1 { font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; }
+  .markdown-preview h2 { font-size: 1.25rem; font-weight: bold; margin: 0.5rem 0; }
+  .markdown-preview h3 { font-size: 1.1rem; font-weight: 600; margin: 0.4rem 0; }
+  .markdown-preview p { margin: 0.4rem 0; }
+  .markdown-preview ul, .markdown-preview ol { margin: 0.4rem 0 0.4rem 1.5rem; }
+  .markdown-preview li { margin: 0.2rem 0; }
+  .markdown-preview code { background: #0f0f14; padding: 0.1rem 0.4rem; border-radius: 0.25rem; font-size: 0.85rem; }
+  .markdown-preview pre { background: #0f0f14; padding: 0.75rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.5rem 0; }
+  .markdown-preview a { color: #a78bfa; text-decoration: underline; }
+  .markdown-preview strong { color: #e5e7eb; }
+  .markdown-preview blockquote { border-left: 3px solid #7c5cff; padding-left: 0.75rem; color: #9ca3af; margin: 0.5rem 0; }
 </style>
 </head>
 <body class="bg-bg text-gray-200 font-sans min-h-screen">
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="loginScreen" class="fixed inset-0 flex items-center justify-center bg-bg z-50">
   <div class="text-center max-w-md px-6">
     <div class="text-6xl mb-4">🎮</div>
@@ -55,10 +97,7 @@
 
 <!-- LOADING -->
 <div id="loadingScreen" class="fixed inset-0 flex items-center justify-center bg-bg z-40 hidden">
-  <div class="text-center">
-    <div class="loader"></div>
-    <p class="text-gray-400 text-sm">Memuat data...</p>
-  </div>
+  <div class="text-center"><div class="loader"></div><p class="text-gray-400 text-sm">Memuat data...</p></div>
 </div>
 
 <!-- APP -->
@@ -124,11 +163,283 @@
     </main>
   </div>
 </div>
+<!-- MODAL HABIT -->
+<div id="habitModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4">
+  <div class="bg-panel border border-border rounded-2xl max-w-md w-full p-6 pop-anim">
+    <h3 id="modalTitle" class="text-xl font-bold mb-4">Habit Baru</h3>
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Nama Habit</label>
+        <input id="habitNama" type="text" placeholder="Olahraga pagi" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Emoji</label>
+          <input id="habitEmoji" type="text" placeholder="🏃" maxlength="2" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm text-center focus:outline-none focus:border-accent" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Tipe</label>
+          <select id="habitTipe" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+            <option value="positif">✅ Positif</option>
+            <option value="negatif">❌ Negatif</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Prioritas</label>
+          <select id="habitPrioritas" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+            <option value="rendah">🟢 Rendah</option>
+            <option value="sedang" selected>🟡 Sedang</option>
+            <option value="tinggi">🔴 Tinggi</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Jadwal</label>
+          <select id="habitJadwal" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+            <option value="harian">📅 Harian</option>
+            <option value="mingguan">📆 Mingguan</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button id="btnCancelHabit" class="flex-1 bg-bg border border-border hover:border-gray-500 text-gray-300 py-2 rounded-lg text-sm transition">Batal</button>
+      <button id="btnSaveHabit" class="flex-1 bg-accent hover:bg-accent/80 text-white py-2 rounded-lg text-sm font-semibold transition">Simpan</button>
+    </div>
+  </div>
+</div>
 
+<!-- MODAL TASK -->
+<div id="taskModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4">
+  <div class="bg-panel border border-border rounded-2xl max-w-lg w-full p-6 pop-anim max-h-[90vh] overflow-y-auto">
+    <h3 id="taskModalTitle" class="text-xl font-bold mb-4">Task Baru</h3>
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Judul Task</label>
+        <input id="taskJudul" type="text" placeholder="Belajar UAS Matematika" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Deskripsi (opsional)</label>
+        <textarea id="taskDeskripsi" rows="2" placeholder="Detail task..." class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none"></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Prioritas</label>
+          <select id="taskPrioritas" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+            <option value="rendah">🟢 Rendah</option>
+            <option value="sedang" selected>🟡 Sedang</option>
+            <option value="tinggi">🔴 Tinggi</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Repeat</label>
+          <select id="taskRepeat" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+            <option value="sekali">Sekali</option>
+            <option value="harian">Harian</option>
+            <option value="mingguan">Mingguan</option>
+            <option value="bulanan">Bulanan</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Deadline (opsional)</label>
+        <input id="taskDeadline" type="datetime-local" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Sub-task (opsional)</label>
+        <div id="subtaskList" class="space-y-2 mb-2"></div>
+        <button id="btnAddSubtask" class="text-xs text-accent hover:text-accent/80 transition">+ Tambah sub-task</button>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button id="btnCancelTask" class="flex-1 bg-bg border border-border hover:border-gray-500 text-gray-300 py-2 rounded-lg text-sm transition">Batal</button>
+      <button id="btnSaveTask" class="flex-1 bg-accent hover:bg-accent/80 text-white py-2 rounded-lg text-sm font-semibold transition">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL JOURNAL -->
+<div id="journalModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4">
+  <div class="bg-panel border border-border rounded-2xl max-w-2xl w-full p-6 pop-anim max-h-[90vh] overflow-y-auto">
+    <h3 id="journalModalTitle" class="text-xl font-bold mb-4">Journal Entry</h3>
+    <div class="space-y-4">
+      <div>
+        <label class="text-xs text-gray-400 block mb-2">Gimana perasaanmu hari ini?</label>
+        <div id="moodPicker" class="flex gap-2 justify-center">
+          <button class="mood-btn" data-mood="1">😢</button>
+          <button class="mood-btn" data-mood="2">😕</button>
+          <button class="mood-btn" data-mood="3">😐</button>
+          <button class="mood-btn" data-mood="4">🙂</button>
+          <button class="mood-btn" data-mood="5">😄</button>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Energi: <span id="energyValue">5</span>/10</label>
+        <input id="journalEnergy" type="range" min="1" max="10" value="5" class="w-full accent-accent" />
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Tags (pisahkan dengan koma)</label>
+        <input id="journalTags" type="text" placeholder="kuliah, sehat, sosial" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Catatan (markdown support)</label>
+        <textarea id="journalText" rows="6" placeholder="Hari ini aku...&#10;&#10;**Highlight:** ...&#10;- ..." class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none font-mono"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button id="btnCancelJournal" class="flex-1 bg-bg border border-border hover:border-gray-500 text-gray-300 py-2 rounded-lg text-sm transition">Batal</button>
+      <button id="btnSaveJournal" class="flex-1 bg-accent hover:bg-accent/80 text-white py-2 rounded-lg text-sm font-semibold transition">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL JOURNAL VIEW -->
+<div id="journalViewModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4">
+  <div class="bg-panel border border-border rounded-2xl max-w-2xl w-full p-6 pop-anim max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between mb-4">
+      <h3 id="journalViewTitle" class="text-xl font-bold">Journal</h3>
+      <button id="btnCloseJournalView" class="text-gray-400 hover:text-white text-2xl">✕</button>
+    </div>
+    <div id="journalViewContent"></div>
+  </div>
+</div>
+
+<!-- MODAL GOAL -->
+<div id="goalModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4">
+  <div class="bg-panel border border-border rounded-2xl max-w-lg w-full p-6 pop-anim max-h-[90vh] overflow-y-auto">
+    <h3 id="goalModalTitle" class="text-xl font-bold mb-4">Goal Baru</h3>
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Judul Goal</label>
+        <input id="goalJudul" type="text" placeholder="Lulus UAS dengan nilai A" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Deskripsi (opsional)</label>
+        <textarea id="goalDeskripsi" rows="2" placeholder="Kenapa goal ini penting..." class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none"></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Kategori</label>
+          <select id="goalKategori" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+            <option value="🎓 Belajar">🎓 Belajar</option>
+            <option value="💪 Kesehatan">💪 Kesehatan</option>
+            <option value="💼 Karier">💼 Karier</option>
+            <option value="💰 Keuangan">💰 Keuangan</option>
+            <option value="🎨 Hobi">🎨 Hobi</option>
+            <option value="👥 Sosial">👥 Sosial</option>
+            <option value="🌱 Pribadi">🌱 Pribadi</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Target Tanggal</label>
+          <input id="goalTarget" type="date" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Milestones (opsional)</label>
+        <div id="milestoneList" class="space-y-2 mb-2"></div>
+        <button id="btnAddMilestone" class="text-xs text-accent hover:text-accent/80 transition">+ Tambah milestone</button>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button id="btnCancelGoal" class="flex-1 bg-bg border border-border hover:border-gray-500 text-gray-300 py-2 rounded-lg text-sm transition">Batal</button>
+      <button id="btnSaveGoal" class="flex-1 bg-accent hover:bg-accent/80 text-white py-2 rounded-lg text-sm font-semibold transition">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTE -->
+<div id="noteModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4">
+  <div class="bg-panel border border-border rounded-2xl max-w-3xl w-full p-6 pop-anim max-h-[90vh] overflow-y-auto">
+    <h3 id="noteModalTitle" class="text-xl font-bold mb-4">Note Baru</h3>
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Judul</label>
+        <input id="noteJudul" type="text" placeholder="Judul note..." class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Folder</label>
+          <input id="noteFolder" type="text" placeholder="Belajar" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Tags (pisah koma)</label>
+          <input id="noteTags" type="text" placeholder="rumus, matematika" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <label class="text-xs text-gray-400">Isi (Markdown)</label>
+          <button id="btnTogglePreview" class="text-xs text-accent hover:text-accent/80">👁️ Preview</button>
+        </div>
+        <textarea id="noteIsi" rows="12" placeholder="# Judul&#10;&#10;Tulis sesuatu...&#10;&#10;## Sub Judul&#10;- poin 1&#10;- poin 2&#10;&#10;**Bold** dan *italic*" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none font-mono"></textarea>
+        <div id="notePreview" class="markdown-preview hidden w-full bg-bg border border-border rounded-lg px-4 py-3 text-sm min-h-[200px]"></div>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="notePinned" type="checkbox" class="accent-accent w-4 h-4" />
+        <label for="notePinned" class="text-sm text-gray-300">📌 Pin ke dashboard</label>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button id="btnCancelNote" class="flex-1 bg-bg border border-border hover:border-gray-500 text-gray-300 py-2 rounded-lg text-sm transition">Batal</button>
+      <button id="btnSaveNote" class="flex-1 bg-accent hover:bg-accent/80 text-white py-2 rounded-lg text-sm font-semibold transition">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FINANCE -->
+<div id="financeModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4">
+  <div class="bg-panel border border-border rounded-2xl max-w-md w-full p-6 pop-anim">
+    <h3 id="financeModalTitle" class="text-xl font-bold mb-4">Transaksi Baru</h3>
+    <div class="space-y-3">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Tipe</label>
+          <select id="txTipe" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+            <option value="expense">💸 Pengeluaran</option>
+            <option value="income">💰 Pemasukan</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-400 block mb-1">Jumlah (Rp)</label>
+          <input id="txJumlah" type="number" placeholder="50000" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Kategori</label>
+        <select id="txKategori" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent">
+          <option value="🍔 Makanan">🍔 Makanan</option>
+          <option value="🚌 Transport">🚌 Transport</option>
+          <option value="🛍️ Belanja">🛍️ Belanja</option>
+          <option value="📚 Pendidikan">📚 Pendidikan</option>
+          <option value="🎮 Hiburan">🎮 Hiburan</option>
+          <option value="🏠 Rumah">🏠 Rumah</option>
+          <option value="💊 Kesehatan">💊 Kesehatan</option>
+          <option value="💼 Gaji">💼 Gaji</option>
+          <option value="🎁 Bonus">🎁 Bonus</option>
+          <option value="📦 Lainnya">📦 Lainnya</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Catatan (opsional)</label>
+        <input id="txCatatan" type="text" placeholder="Makan siang di kantin" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-1">Tanggal</label>
+        <input id="txTanggal" type="date" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+      </div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button id="btnCancelTx" class="flex-1 bg-bg border border-border hover:border-gray-500 text-gray-300 py-2 rounded-lg text-sm transition">Batal</button>
+      <button id="btnSaveTx" class="flex-1 bg-accent hover:bg-accent/80 text-white py-2 rounded-lg text-sm font-semibold transition">Simpan</button>
+    </div>
+  </div>
+</div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+import { getDatabase, ref, get, set, update, onValue, push, remove } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAx8Dr9iRq2wte15pMQEgKJKkq4tcYPwAM",
@@ -145,16 +456,62 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 const googleProvider = new GoogleAuthProvider();
 
-const state = { user: null, profile: null, currentPage: "dashboard" };
+const state = {
+  user: null, profile: null,
+  habits: {}, tasks: {}, journal: {}, goals: {}, notes: {}, finance: {},
+  currentPage: "dashboard",
+  editingHabitId: null, editingTaskId: null, editingGoalId: null, editingNoteId: null, editingTxId: null,
+  taskFilter: "aktif", journalMonth: new Date(), noteFolderFilter: "all", noteSearch: "",
+  subtasksTemp: [], milestonesTemp: [], selectedMood: 3,
+  financeFilter: "bulan"
+};
 
-// ===== UI HELPERS =====
+// ===== HELPERS =====
 const $ = (id) => document.getElementById(id);
-const loginScreen = $("loginScreen");
-const loadingScreen = $("loadingScreen");
-const appEl = $("app");
-const btnLogin = $("btnLogin");
-const btnLogout = $("btnLogout");
-const loginError = $("loginError");
+const todayKey = () => {
+  const d = new Date();
+  if (d.getHours() < 4) d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+};
+const isHabitDoneToday = (habit) => habit.riwayat && habit.riwayat[todayKey()];
+const daysBetween = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
+const fmtDate = (ts) => {
+  if (!ts) return "";
+  const d = new Date(ts);
+  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+};
+const fmtRupiah = (n) => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+const esc = (s) => String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+// Simple markdown parser
+function md(text) {
+  if (!text) return "";
+  let html = esc(text);
+  html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>');
+  html = html.replace(/^> (.*)$/gm, '<blockquote>$1</blockquote>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/`(.+?)`/g, '<code>$1</code>');
+  html = html.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>');
+  html = html.replace(/^- (.*)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = '<p>' + html + '</p>';
+  html = html.replace(/<p>\s*(<h[123]|<ul|<blockquote)/g, '$1');
+  html = html.replace(/(<\/h[123]>|<\/ul>|<\/blockquote>)\s*<\/p>/g, '$1');
+  return html;
+}
+
+// ===== GAMIFICATION =====
+const REWARD = {
+  rendah:  { xp: 10, gold: 5 },
+  sedang:  { xp: 20, gold: 10 },
+  tinggi:  { xp: 35, gold: 20 },
+  negatif: { xp: -10, gold: -5 },
+};
+const XP_FOR_LEVEL = (lvl) => Math.floor(100 * Math.pow(lvl, 1.5));
 
 function toast(msg, type = "info") {
   const el = document.createElement("div");
@@ -162,55 +519,75 @@ function toast(msg, type = "info") {
   el.textContent = msg;
   if (type === "success") el.style.borderColor = "#4ade80";
   if (type === "error") el.style.borderColor = "#ef4444";
+  if (type === "level") { el.style.borderColor = "#7c5cff"; el.style.fontWeight = "bold"; }
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3000);
+  setTimeout(() => el.remove(), 3200);
+}
+
+async function applyReward(amount) {
+  const uid = state.user.uid;
+  const p = state.profile;
+  let newXp = p.xp + amount.xp;
+  let newGold = Math.max(0, p.gold + amount.gold);
+  let newLevel = p.level;
+  let newXpNeeded = p.xpNeeded;
+  let leveledUp = false;
+
+  while (newXp >= newXpNeeded) {
+    newXp -= newXpNeeded;
+    newLevel += 1;
+    newXpNeeded = XP_FOR_LEVEL(newLevel);
+    leveledUp = true;
+  }
+  if (newXp < 0) newXp = 0;
+
+  await update(ref(db, `users/${uid}/profile`), {
+    xp: newXp, xpNeeded: newXpNeeded, gold: newGold, level: newLevel
+  });
+
+  return leveledUp ? newLevel : null;
 }
 
 // ===== AUTH =====
-btnLogin.addEventListener("click", async () => {
+$("btnLogin").addEventListener("click", async () => {
   try {
-    btnLogin.disabled = true;
-    btnLogin.textContent = "Loading...";
+    $("btnLogin").disabled = true;
+    $("btnLogin").textContent = "Loading...";
     await signInWithPopup(auth, googleProvider);
   } catch (err) {
     console.error(err);
-    loginError.textContent = "Gagal login: " + err.message;
-    loginError.classList.remove("hidden");
-    btnLogin.disabled = false;
-    btnLogin.textContent = "Login dengan Google";
+    $("loginError").textContent = "Gagal login: " + err.message;
+    $("loginError").classList.remove("hidden");
+    $("btnLogin").disabled = false;
+    $("btnLogin").textContent = "Login dengan Google";
   }
 });
 
-btnLogout.addEventListener("click", async () => {
+$("btnLogout").addEventListener("click", async () => {
   if (confirm("Yakin mau logout?")) await signOut(auth);
 });
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     state.user = user;
-    loginScreen.classList.add("hidden");
-    loadingScreen.classList.remove("hidden");
-
+    $("loginScreen").classList.add("hidden");
+    $("loadingScreen").classList.remove("hidden");
     $("userPhoto").src = user.photoURL || "";
     $("userName").textContent = user.displayName || "Player";
 
-    // Init profile
     const profileRef = ref(db, `users/${user.uid}/profile`);
     const snap = await get(profileRef);
     if (!snap.exists()) {
       await set(profileRef, {
-        nama: user.displayName || "Player",
-        photo: user.photoURL || "",
-        level: 1, xp: 0, xpNeeded: 100,
-        gold: 0, hp: 100, hpMax: 100,
-        streak: 0, lastLogin: Date.now(),
-        createdAt: Date.now()
+        nama: user.displayName || "Player", photo: user.photoURL || "",
+        level: 1, xp: 0, xpNeeded: 100, gold: 0,
+        hp: 100, hpMax: 100, streak: 0,
+        lastLogin: Date.now(), createdAt: Date.now()
       });
     } else {
       await update(profileRef, { lastLogin: Date.now() });
     }
 
-    // Listen profile
     onValue(profileRef, (s) => {
       if (!s.exists()) return;
       state.profile = s.val();
@@ -218,25 +595,59 @@ onAuthStateChanged(auth, async (user) => {
       if (state.currentPage === "dashboard") renderDashboard();
     });
 
-    loadingScreen.classList.add("hidden");
-    appEl.classList.remove("hidden");
+    onValue(ref(db, `users/${user.uid}/habits`), (s) => {
+      state.habits = s.exists() ? s.val() : {};
+      if (state.currentPage === "habits") renderHabits();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/tasks`), (s) => {
+      state.tasks = s.exists() ? s.val() : {};
+      if (state.currentPage === "tasks") renderTasks();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/journal`), (s) => {
+      state.journal = s.exists() ? s.val() : {};
+      if (state.currentPage === "journal") renderJournal();
+    });
+
+    onValue(ref(db, `users/${user.uid}/goals`), (s) => {
+      state.goals = s.exists() ? s.val() : {};
+      if (state.currentPage === "goals") renderGoals();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/notes`), (s) => {
+      state.notes = s.exists() ? s.val() : {};
+      if (state.currentPage === "notes") renderNotes();
+    });
+
+    onValue(ref(db, `users/${user.uid}/finance`), (s) => {
+      state.finance = s.exists() ? s.val() : {};
+      if (state.currentPage === "finance") renderFinance();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    $("loadingScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
     navigateTo("dashboard");
   } else {
-    state.user = null;
-    state.profile = null;
-    loginScreen.classList.remove("hidden");
-    loadingScreen.classList.add("hidden");
-    appEl.classList.add("hidden");
-    btnLogin.disabled = false;
-    btnLogin.textContent = "Login dengan Google";
+    state.user = null; state.profile = null;
+    state.habits = {}; state.tasks = {}; state.journal = {}; state.goals = {}; state.notes = {}; state.finance = {};
+    $("loginScreen").classList.remove("hidden");
+    $("loadingScreen").classList.add("hidden");
+    $("app").classList.add("hidden");
+    $("btnLogin").disabled = false;
+    $("btnLogin").textContent = "Login dengan Google";
   }
 });
 
 // ===== TOP BAR =====
 function renderTopBar(p) {
-  $("hpBar").style.width = (p.hp / p.hpMax * 100) + "%";
+  $("hpBar").style.width = Math.max(0, (p.hp / p.hpMax * 100)) + "%";
   $("hpText").textContent = `${p.hp}/${p.hpMax}`;
-  $("xpBar").style.width = (p.xp / p.xpNeeded * 100) + "%";
+  $("xpBar").style.width = Math.min(100, (p.xp / p.xpNeeded * 100)) + "%";
   $("xpText").textContent = `${p.xp}/${p.xpNeeded}`;
   $("goldText").textContent = p.gold;
   $("streakText").textContent = p.streak;
@@ -255,16 +666,16 @@ function navigateTo(page) {
   const content = $("content");
   const pages = {
     dashboard: renderDashboard,
-    habits: () => renderPlaceholder("🔥 Habits", "Fitur habits akan datang di update berikutnya"),
-    tasks: () => renderPlaceholder("✅ Tasks", "Fitur tasks akan datang di update berikutnya"),
-    journal: () => renderPlaceholder("📔 Journal", "Fitur journal akan datang"),
-    goals: () => renderPlaceholder("🎯 Goals", "Fitur goals akan datang"),
-    finance: () => renderPlaceholder("💰 Finance", "Fitur finance akan datang"),
-    notes: () => renderPlaceholder("📝 Notes", "Fitur notes akan datang"),
-    avatar: () => renderPlaceholder("🧙 Avatar", "Fitur avatar akan datang"),
-    shop: () => renderPlaceholder("🛒 Shop", "Fitur shop akan datang"),
-    stats: () => renderPlaceholder("📈 Stats", "Fitur stats akan datang"),
-    settings: () => renderPlaceholder("⚙️ Settings", "Fitur settings akan datang"),
+    habits: renderHabits,
+    tasks: renderTasks,
+    journal: renderJournal,
+    goals: renderGoals,
+    finance: renderFinance,
+    notes: renderNotes,
+    avatar: () => renderPlaceholder("🧙 Avatar", "Segera hadir di update berikutnya"),
+    shop: () => renderPlaceholder("🛒 Shop", "Segera hadir di update berikutnya"),
+    stats: () => renderPlaceholder("📈 Stats", "Segera hadir di update berikutnya"),
+    settings: () => renderPlaceholder("⚙️ Settings", "Segera hadir di update berikutnya"),
   };
   content.innerHTML = "";
   (pages[page] || renderDashboard)();
@@ -279,16 +690,37 @@ function renderPlaceholder(title, subtitle) {
     </div>`;
 }
 
+// ===== DASHBOARD =====
 function renderDashboard() {
   const p = state.profile || {};
+  const habits = Object.entries(state.habits).map(([id, h]) => ({ id, ...h }));
+  const tasks = Object.entries(state.tasks).map(([id, t]) => ({ id, ...t }));
+  const goals = Object.entries(state.goals).map(([id, g]) => ({ id, ...g }));
+  const journal = Object.entries(state.journal).map(([id, j]) => ({ id, ...j }));
+  const pinnedNotes = Object.entries(state.notes).map(([id, n]) => ({ id, ...n })).filter(n => n.pinned);
+  const doneToday = habits.filter(h => isHabitDoneToday(h)).length;
+  const tasksPending = tasks.filter(t => !t.selesai);
+
+  // Finance bulan ini
+  const now = new Date();
+  const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const monthTx = Object.entries(state.finance).map(([id, t]) => ({ id, ...t })).filter(t => t.tanggal && t.tanggal.startsWith(thisMonth));
+  const totalIncome = monthTx.filter(t => t.tipe === 'income').reduce((s, t) => s + Number(t.jumlah), 0);
+  const totalExpense = monthTx.filter(t => t.tipe === 'expense').reduce((s, t) => s + Number(t.jumlah), 0);
+
+  // Journal terakhir
+  const sortedJournal = journal.sort((a, b) => (b.tanggal || '').localeCompare(a.tanggal || ''));
+  const lastJournal = sortedJournal[0];
+
   $("content").innerHTML = `
-    <div class="max-w-4xl">
-      <h1 class="text-3xl font-bold mb-1">Halo, ${p.nama || "Player"} 👋</h1>
-      <p class="text-gray-400 mb-8">Selamat datang di LifeQuest.</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="max-w-6xl">
+      <h1 class="text-3xl font-bold mb-1">Halo, ${esc(p.nama) || "Player"} 👋</h1>
+      <p class="text-gray-400 mb-8">${new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="bg-panel border border-border rounded-xl p-5">
           <div class="text-3xl mb-2">⭐</div>
-          <div class="text-2xl font-bold">${p.xp || 0} XP</div>
+          <div class="text-2xl font-bold">${p.xp || 0}</div>
           <div class="text-sm text-gray-400">Total XP</div>
         </div>
         <div class="bg-panel border border-border rounded-xl p-5">
@@ -298,16 +730,1329 @@ function renderDashboard() {
         </div>
         <div class="bg-panel border border-border rounded-xl p-5">
           <div class="text-3xl mb-2">🔥</div>
-          <div class="text-2xl font-bold">${p.streak || 0} hari</div>
+          <div class="text-2xl font-bold">${p.streak || 0}</div>
           <div class="text-sm text-gray-400">Streak</div>
         </div>
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-3xl mb-2">✅</div>
+          <div class="text-2xl font-bold">${doneToday}/${habits.length}</div>
+          <div class="text-sm text-gray-400">Habits Hari Ini</div>
+        </div>
       </div>
-      <div class="bg-panel border border-border rounded-xl p-6">
-        <h3 class="font-bold mb-2">🎉 Selamat! Login Berhasil</h3>
-        <p class="text-gray-400 text-sm">Fondasi aplikasi udah jalan. Lanjut ke update berikutnya buat fitur Habits & Tasks.</p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-panel border border-border rounded-xl p-6">
+          <h3 class="font-bold mb-3 flex items-center justify-between">
+            <span>🔥 Habits Hari Ini</span>
+            <span class="text-xs text-gray-400">${doneToday}/${habits.length}</span>
+          </h3>
+          ${habits.length === 0 
+            ? `<p class="text-gray-400 text-sm">Belum ada habit. Buka halaman <b>Habits</b>!</p>`
+            : `<div class="space-y-2">
+                ${habits.slice(0, 5).map(h => `
+                  <div class="bg-bg border ${isHabitDoneToday(h) ? 'border-green-500/50' : 'border-border'} rounded-lg p-3 flex items-center gap-3">
+                    <span class="text-2xl">${h.emoji || '📌'}</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-sm font-semibold truncate">${esc(h.nama)}</div>
+                      <div class="text-xs text-gray-400">🔥 ${h.streak || 0} hari</div>
+                    </div>
+                    ${isHabitDoneToday(h) ? '<span class="text-green-400">✅</span>' : '<span class="text-gray-600">⏳</span>'}
+                  </div>`).join('')}
+              </div>`}
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl p-6">
+          <h3 class="font-bold mb-3 flex items-center justify-between">
+            <span>✅ Tasks Aktif</span>
+            <span class="text-xs text-gray-400">${tasksPending.length} pending</span>
+          </h3>
+          ${tasksPending.length === 0 
+            ? `<p class="text-gray-400 text-sm">Gak ada task aktif. Santai dulu 🎉</p>`
+            : `<div class="space-y-2">
+                ${tasksPending.slice(0, 5).map(t => `
+                  <div class="bg-bg border border-border rounded-lg p-3 flex items-center gap-3">
+                    <span class="text-lg">${t.prioritas === 'tinggi' ? '🔴' : t.prioritas === 'sedang' ? '🟡' : '🟢'}</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-sm font-semibold truncate">${esc(t.judul)}</div>
+                      ${t.deadline ? `<div class="text-xs text-gray-400">📅 ${fmtDate(t.deadline)}</div>` : ''}
+                    </div>
+                  </div>`).join('')}
+              </div>`}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <h3 class="font-bold mb-3">🎯 Goals Aktif</h3>
+          ${goals.length === 0 
+            ? `<p class="text-gray-400 text-sm">Belum ada goal</p>`
+            : `<div class="space-y-3">
+                ${goals.slice(0, 3).map(g => {
+                  const mTotal = g.milestones ? Object.keys(g.milestones).length : 0;
+                  const mDone = g.milestones ? Object.values(g.milestones).filter(m => m.selesai).length : 0;
+                  const pct = mTotal > 0 ? Math.round(mDone / mTotal * 100) : 0;
+                  return `<div>
+                    <div class="text-xs text-gray-400 mb-1 truncate">${esc(g.kategori || '')} ${esc(g.judul)}</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+                    <div class="text-xs text-gray-500 mt-1">${mDone}/${mTotal} milestone (${pct}%)</div>
+                  </div>`;
+                }).join('')}
+              </div>`}
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <h3 class="font-bold mb-3">💰 Bulan Ini</h3>
+          ${monthTx.length === 0 
+            ? `<p class="text-gray-400 text-sm">Belum ada transaksi</p>`
+            : `<div class="space-y-2">
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-400">Pemasukan</span>
+                  <span class="text-green-400 font-semibold">${fmtRupiah(totalIncome)}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-400">Pengeluaran</span>
+                  <span class="text-red-400 font-semibold">${fmtRupiah(totalExpense)}</span>
+                </div>
+                <div class="flex justify-between text-sm pt-2 border-t border-border">
+                  <span class="text-gray-400">Sisa</span>
+                  <span class="font-bold ${(totalIncome - totalExpense) >= 0 ? 'text-accent2' : 'text-red-400'}">${fmtRupiah(totalIncome - totalExpense)}</span>
+                </div>
+              </div>`}
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <h3 class="font-bold mb-3">📔 Journal Terakhir</h3>
+          ${!lastJournal 
+            ? `<p class="text-gray-400 text-sm">Belum ada journal</p>`
+            : `<div>
+                <div class="text-xs text-gray-400 mb-2">${lastJournal.tanggal}</div>
+                <div class="text-3xl mb-2">${['😢','😕','😐','🙂','😄'][(lastJournal.mood || 3) - 1]}</div>
+                <div class="text-sm text-gray-300 line-clamp-3">${esc((lastJournal.text || '').slice(0, 100))}${(lastJournal.text || '').length > 100 ? '...' : ''}</div>
+              </div>`}
+        </div>
+      </div>
+
+      ${pinnedNotes.length > 0 ? `
+        <div class="mt-6">
+          <h3 class="font-bold mb-3">📌 Pinned Notes</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${pinnedNotes.slice(0, 6).map(n => `
+              <div class="bg-panel border border-yellow-500/40 rounded-xl p-4 cursor-pointer hover:border-yellow-400 transition" data-open-note="${n.id}">
+                <div class="font-semibold mb-1 truncate">📌 ${esc(n.judul)}</div>
+                <div class="text-xs text-gray-400 line-clamp-2">${esc((n.isi || '').slice(0, 80))}...</div>
+              </div>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+    </div>`;
+
+  document.querySelectorAll("[data-open-note]").forEach(el => {
+    el.addEventListener("click", () => openNoteModal(el.dataset.openNote));
+  });
+}
+
+// ============ HABITS ============
+// ============ HABITS ============
+function renderHabits() {
+  const habits = Object.entries(state.habits).map(([id, h]) => ({ id, ...h }));
+  const doneToday = habits.filter(h => isHabitDoneToday(h)).length;
+
+  $("content").innerHTML = `
+    <div class="max-w-5xl">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-1">🔥 Habits</h1>
+          <p class="text-gray-400 text-sm">${doneToday}/${habits.length} selesai hari ini</p>
+        </div>
+        <button id="btnNewHabit" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2">
+          <span class="text-lg">+</span> Habit Baru
+        </button>
+      </div>
+
+      ${habits.length === 0 
+        ? `<div class="bg-panel border border-border border-dashed rounded-xl p-12 text-center">
+            <div class="text-5xl mb-3">🌱</div>
+            <h3 class="font-bold mb-2">Belum ada habit</h3>
+            <p class="text-gray-400 text-sm mb-4">Mulai bangun kebiasaan baik dengan bikin habit pertamamu!</p>
+            <button id="btnNewHabitEmpty" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+              + Bikin Habit Pertama
+            </button>
+          </div>`
+        : `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            ${habits.map(h => habitCard(h)).join('')}
+          </div>`}
+    </div>`;
+
+  const btnNew = $("btnNewHabit") || $("btnNewHabitEmpty");
+  if (btnNew) btnNew.addEventListener("click", () => openHabitModal());
+
+  document.querySelectorAll("[data-habit-check]").forEach(el => {
+    el.addEventListener("click", () => toggleHabit(el.dataset.habitCheck));
+  });
+  document.querySelectorAll("[data-habit-edit]").forEach(el => {
+    el.addEventListener("click", (e) => { e.stopPropagation(); openHabitModal(el.dataset.habitEdit); });
+  });
+  document.querySelectorAll("[data-habit-del]").forEach(el => {
+    el.addEventListener("click", (e) => { e.stopPropagation(); deleteHabit(el.dataset.habitDel); });
+  });
+}
+
+function habitCard(h) {
+  const done = isHabitDoneToday(h);
+  const isNeg = h.tipe === "negatif";
+  const prioColor = { rendah: "text-green-400", sedang: "text-yellow-400", tinggi: "text-red-400" }[h.prioritas] || "text-gray-400";
+  const prioLabel = { rendah: "🟢 Rendah", sedang: "🟡 Sedang", tinggi: "🔴 Tinggi" }[h.prioritas] || "";
+
+  return `
+    <div class="habit-card bg-panel border border-border rounded-xl p-4 ${done ? 'done' : ''} cursor-pointer" data-habit-check="${h.id}">
+      <div class="flex items-start justify-between mb-3">
+        <div class="text-4xl">${h.emoji || '📌'}</div>
+        <div class="flex gap-1">
+          <button data-habit-edit="${h.id}" class="text-gray-500 hover:text-accent text-sm px-2 py-1 transition">✏️</button>
+          <button data-habit-del="${h.id}" class="text-gray-500 hover:text-red-400 text-sm px-2 py-1 transition">🗑️</button>
+        </div>
+      </div>
+      <div class="font-semibold mb-1 truncate">${esc(h.nama)}</div>
+      <div class="text-xs ${prioColor} mb-3">${prioLabel} · ${h.jadwal === 'harian' ? '📅 Harian' : '📆 Mingguan'}${isNeg ? ' · ❌ Negatif' : ''}</div>
+      <div class="flex items-center justify-between">
+        <div class="text-xs text-gray-400">🔥 ${h.streak || 0} hari</div>
+        <div class="w-8 h-8 rounded-full border-2 ${done ? 'bg-green-500 border-green-500' : 'border-gray-600'} flex items-center justify-center text-sm">
+          ${done ? '✓' : ''}
+        </div>
       </div>
     </div>`;
 }
+
+async function toggleHabit(habitId) {
+  const h = state.habits[habitId];
+  if (!h) return;
+  const uid = state.user.uid;
+  const key = todayKey();
+  const isDone = h.riwayat && h.riwayat[key];
+
+  if (isDone) { toast("Habit ini udah dicentang hari ini", "info"); return; }
+
+  const isNeg = h.tipe === "negatif";
+  let reward = REWARD[h.prioritas] || REWARD.sedang;
+  if (isNeg) reward = REWARD.negatif;
+
+  let newStreak = (h.streak || 0) + 1;
+  const lastDone = h.lastDone;
+  if (lastDone) {
+    const diff = daysBetween(lastDone, key);
+    if (diff > 1) newStreak = 1;
+  } else { newStreak = 1; }
+
+  const updates = {};
+  updates[`users/${uid}/habits/${habitId}/riwayat/${key}`] = true;
+  updates[`users/${uid}/habits/${habitId}/lastDone`] = key;
+  updates[`users/${uid}/habits/${habitId}/streak`] = newStreak;
+  updates[`users/${uid}/profile/streak`] = newStreak;
+
+  await update(ref(db), updates);
+  const newLevel = await applyReward(reward);
+
+  const xpStr = reward.xp >= 0 ? `+${reward.xp}` : `${reward.xp}`;
+  const goldStr = reward.gold >= 0 ? `+${reward.gold}` : `${reward.gold}`;
+  toast(`${h.emoji || ''} ${h.nama} — ${xpStr} XP, ${goldStr} Gold`, "success");
+  if (newLevel) setTimeout(() => toast(`🎉 LEVEL UP! Kamu sekarang Level ${newLevel}`, "level"), 500);
+  if (newStreak > 1 && newStreak % 7 === 0) setTimeout(() => toast(`🔥 Streak ${newStreak} hari! Luar biasa!`, "level"), 800);
+}
+
+function openHabitModal(habitId = null) {
+  state.editingHabitId = habitId;
+  $("modalTitle").textContent = habitId ? "Edit Habit" : "Habit Baru";
+
+  if (habitId) {
+    const h = state.habits[habitId];
+    $("habitNama").value = h.nama || "";
+    $("habitEmoji").value = h.emoji || "";
+    $("habitTipe").value = h.tipe || "positif";
+    $("habitPrioritas").value = h.prioritas || "sedang";
+    $("habitJadwal").value = h.jadwal || "harian";
+  } else {
+    $("habitNama").value = ""; $("habitEmoji").value = "";
+    $("habitTipe").value = "positif";
+    $("habitPrioritas").value = "sedang";
+    $("habitJadwal").value = "harian";
+  }
+
+  $("habitModal").classList.remove("hidden");
+  $("habitModal").classList.add("flex");
+}
+
+function closeHabitModal() {
+  $("habitModal").classList.add("hidden");
+  $("habitModal").classList.remove("flex");
+  state.editingHabitId = null;
+}
+
+$("btnCancelHabit").addEventListener("click", closeHabitModal);
+$("habitModal").addEventListener("click", (e) => { if (e.target.id === "habitModal") closeHabitModal(); });
+
+$("btnSaveHabit").addEventListener("click", async () => {
+  const nama = $("habitNama").value.trim();
+  if (!nama) { toast("Nama habit wajib diisi", "error"); return; }
+
+  const uid = state.user.uid;
+  const data = {
+    nama,
+    emoji: $("habitEmoji").value.trim() || "📌",
+    tipe: $("habitTipe").value,
+    prioritas: $("habitPrioritas").value,
+    jadwal: $("habitJadwal").value,
+  };
+
+  if (state.editingHabitId) {
+    await update(ref(db, `users/${uid}/habits/${state.editingHabitId}`), data);
+    toast("Habit diupdate", "success");
+  } else {
+    const newRef = push(ref(db, `users/${uid}/habits`));
+    data.streak = 0;
+    data.createdAt = Date.now();
+    data.riwayat = {};
+    await set(newRef, data);
+    toast("Habit dibuat!", "success");
+  }
+  closeHabitModal();
+});
+
+async function deleteHabit(habitId) {
+  if (!confirm("Hapus habit ini?")) return;
+  await remove(ref(db, `users/${state.user.uid}/habits/${habitId}`));
+  toast("Habit dihapus", "info");
+}
+
+// ============ TASKS ============
+function renderTasks() {
+  const allTasks = Object.entries(state.tasks).map(([id, t]) => ({ id, ...t }));
+  const now = Date.now();
+  const todayEnd = new Date(); todayEnd.setHours(23,59,59,999);
+  const weekEnd = new Date(todayEnd); weekEnd.setDate(weekEnd.getDate() + 7);
+
+  let filtered = allTasks;
+  const f = state.taskFilter;
+  if (f === "aktif") filtered = allTasks.filter(t => !t.selesai);
+  else if (f === "hariini") filtered = allTasks.filter(t => !t.selesai && t.deadline && new Date(t.deadline) <= todayEnd);
+  else if (f === "mingguini") filtered = allTasks.filter(t => !t.selesai && t.deadline && new Date(t.deadline) <= weekEnd);
+  else if (f === "selesai") filtered = allTasks.filter(t => t.selesai);
+
+  const prioRank = { tinggi: 0, sedang: 1, rendah: 2 };
+  filtered.sort((a, b) => {
+    if (a.selesai !== b.selesai) return a.selesai ? 1 : -1;
+    if (prioRank[a.prioritas] !== prioRank[b.prioritas]) return prioRank[a.prioritas] - prioRank[b.prioritas];
+    const ad = a.deadline || Infinity, bd = b.deadline || Infinity;
+    return ad - bd;
+  });
+
+  const pending = allTasks.filter(t => !t.selesai).length;
+  const done = allTasks.filter(t => t.selesai).length;
+  const overdue = allTasks.filter(t => !t.selesai && t.deadline && new Date(t.deadline) < now).length;
+
+  $("content").innerHTML = `
+    <div class="max-w-4xl">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-1">✅ Tasks</h1>
+          <p class="text-gray-400 text-sm">${pending} pending · ${done} selesai${overdue > 0 ? ` · <span class="text-red-400">${overdue} lewat deadline</span>` : ''}</p>
+        </div>
+        <button id="btnNewTask" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2">
+          <span class="text-lg">+</span> Task Baru
+        </button>
+      </div>
+
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button class="filter-btn ${f==='aktif'?'active':''}" data-filter="aktif">📋 Aktif</button>
+        <button class="filter-btn ${f==='hariini'?'active':''}" data-filter="hariini">📅 Hari Ini</button>
+        <button class="filter-btn ${f==='mingguini'?'active':''}" data-filter="mingguini">🗓️ Minggu Ini</button>
+        <button class="filter-btn ${f==='semua'?'active':''}" data-filter="semua">📚 Semua</button>
+        <button class="filter-btn ${f==='selesai'?'active':''}" data-filter="selesai">✅ Selesai</button>
+      </div>
+
+      ${filtered.length === 0
+        ? `<div class="bg-panel border border-border border-dashed rounded-xl p-12 text-center">
+            <div class="text-5xl mb-3">📝</div>
+            <h3 class="font-bold mb-2">${f === 'aktif' ? 'Gak ada task aktif' : 'Belum ada task'}</h3>
+            <p class="text-gray-400 text-sm mb-4">${f === 'aktif' ? 'Semua task udah selesai. Hebat! 🎉' : 'Yuk mulai bikin task pertamamu!'}</p>
+            <button id="btnNewTaskEmpty" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Bikin Task</button>
+          </div>`
+        : `<div class="space-y-2">${filtered.map(t => taskItem(t)).join('')}</div>`}
+    </div>`;
+
+  const btnNew = $("btnNewTask") || $("btnNewTaskEmpty");
+  if (btnNew) btnNew.addEventListener("click", () => openTaskModal());
+
+  document.querySelectorAll("[data-filter]").forEach(b => {
+    b.addEventListener("click", () => { state.taskFilter = b.dataset.filter; renderTasks(); });
+  });
+  document.querySelectorAll("[data-task-toggle]").forEach(el => {
+    el.addEventListener("click", () => toggleTask(el.dataset.taskToggle));
+  });
+  document.querySelectorAll("[data-task-edit]").forEach(el => {
+    el.addEventListener("click", (e) => { e.stopPropagation(); openTaskModal(el.dataset.taskEdit); });
+  });
+  document.querySelectorAll("[data-task-del]").forEach(el => {
+    el.addEventListener("click", (e) => { e.stopPropagation(); deleteTask(el.dataset.taskDel); });
+  });
+}
+
+function taskItem(t) {
+  const now = Date.now();
+  const isOverdue = !t.selesai && t.deadline && new Date(t.deadline) < now;
+  const isDueToday = !t.selesai && t.deadline && new Date(t.deadline).toDateString() === new Date().toDateString();
+  const prioDot = { tinggi: '🔴', sedang: '🟡', rendah: '🟢' }[t.prioritas] || '⚪';
+  const subtaskCount = t.subtasks ? Object.keys(t.subtasks).length : 0;
+  const subtaskDone = t.subtasks ? Object.values(t.subtasks).filter(s => s.selesai).length : 0;
+
+  let deadlineBadge = "";
+  if (t.deadline && !t.selesai) {
+    const d = new Date(t.deadline);
+    if (isOverdue) deadlineBadge = `<span class="text-xs text-red-400">⏰ Lewat: ${fmtDate(t.deadline)}</span>`;
+    else if (isDueToday) deadlineBadge = `<span class="text-xs text-yellow-400">📅 Hari ini: ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}</span>`;
+    else deadlineBadge = `<span class="text-xs text-gray-400">📅 ${fmtDate(t.deadline)}</span>`;
+  }
+
+  return `
+    <div class="task-item bg-panel border ${isOverdue ? 'border-red-500/50' : 'border-border'} rounded-xl p-4 flex items-start gap-3 ${t.selesai ? 'done' : ''}">
+      <div class="checkbox-custom ${t.selesai ? 'checked' : ''} mt-0.5" data-task-toggle="${t.id}">${t.selesai ? '✓' : ''}</div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2 mb-1">
+          <div class="flex-1 min-w-0">
+            <div class="font-semibold break-words">${prioDot} ${esc(t.judul)}</div>
+            ${t.deskripsi ? `<div class="text-xs text-gray-400 mt-1 break-words">${esc(t.deskripsi)}</div>` : ''}
+          </div>
+          <div class="flex gap-1 flex-shrink-0">
+            <button data-task-edit="${t.id}" class="text-gray-500 hover:text-accent text-sm px-1 transition">✏️</button>
+            <button data-task-del="${t.id}" class="text-gray-500 hover:text-red-400 text-sm px-1 transition">🗑️</button>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap text-xs mt-2">
+          ${deadlineBadge}
+          ${t.repeat && t.repeat !== 'sekali' ? `<span class="text-gray-400">🔁 ${t.repeat}</span>` : ''}
+          ${subtaskCount > 0 ? `<span class="text-gray-400">📋 ${subtaskDone}/${subtaskCount}</span>` : ''}
+        </div>
+        ${t.subtasks && Object.keys(t.subtasks).length > 0 ? `
+          <div class="mt-3 space-y-1 pl-1">
+            ${Object.entries(t.subtasks).map(([sid, s]) => `
+              <div class="subtask ${s.selesai ? 'done' : ''}">
+                <input type="checkbox" ${s.selesai ? 'checked' : ''} data-subtask-toggle="${t.id}__${sid}" />
+                <label class="cursor-pointer text-gray-300">${esc(s.teks)}</label>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    </div>`;
+}
+
+async function toggleTask(taskId) {
+  const t = state.tasks[taskId];
+  if (!t) return;
+  if (t.selesai) { toast("Task udah selesai", "info"); return; }
+
+  const uid = state.user.uid;
+  const reward = REWARD[t.prioritas] || REWARD.sedang;
+  await update(ref(db, `users/${uid}/tasks/${taskId}`), { selesai: true, selesaiAt: Date.now() });
+  const newLevel = await applyReward(reward);
+
+  toast(`✅ ${t.judul} selesai! +${reward.xp} XP, +${reward.gold} Gold`, "success");
+  if (newLevel) setTimeout(() => toast(`🎉 LEVEL UP! Kamu sekarang Level ${newLevel}`, "level"), 500);
+}
+
+function openTaskModal(taskId = null) {
+  state.editingTaskId = taskId;
+  state.subtasksTemp = [];
+  $("taskModalTitle").textContent = taskId ? "Edit Task" : "Task Baru";
+
+  if (taskId) {
+    const t = state.tasks[taskId];
+    $("taskJudul").value = t.judul || "";
+    $("taskDeskripsi").value = t.deskripsi || "";
+    $("taskPrioritas").value = t.prioritas || "sedang";
+    $("taskRepeat").value = t.repeat || "sekali";
+    if (t.deadline) {
+      const d = new Date(t.deadline);
+      const iso = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      $("taskDeadline").value = iso;
+    } else { $("taskDeadline").value = ""; }
+    if (t.subtasks) {
+      state.subtasksTemp = Object.entries(t.subtasks).map(([id, s]) => ({ id, teks: s.teks, selesai: s.selesai }));
+    }
+  } else {
+    $("taskJudul").value = ""; $("taskDeskripsi").value = "";
+    $("taskPrioritas").value = "sedang"; $("taskRepeat").value = "sekali";
+    $("taskDeadline").value = "";
+  }
+  renderSubtasksTemp();
+  $("taskModal").classList.remove("hidden");
+  $("taskModal").classList.add("flex");
+}
+
+function renderSubtasksTemp() {
+  $("subtaskList").innerHTML = state.subtasksTemp.map((s, i) => `
+    <div class="flex gap-2 items-center">
+      <input type="text" value="${esc(s.teks)}" data-subtask-idx="${i}" class="subtask-input flex-1 bg-bg border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-accent" placeholder="Sub-task..." />
+      <button data-subtask-del="${i}" class="text-gray-500 hover:text-red-400 text-sm px-2">✕</button>
+    </div>
+  `).join("");
+
+  document.querySelectorAll(".subtask-input").forEach(inp => {
+    inp.addEventListener("input", (e) => {
+      state.subtasksTemp[+e.target.dataset.subtaskIdx].teks = e.target.value;
+    });
+  });
+  document.querySelectorAll("[data-subtask-del]").forEach(b => {
+    b.addEventListener("click", () => {
+      state.subtasksTemp.splice(+b.dataset.subtaskDel, 1);
+      renderSubtasksTemp();
+    });
+  });
+}
+
+$("btnAddSubtask").addEventListener("click", () => {
+  state.subtasksTemp.push({ teks: "", selesai: false });
+  renderSubtasksTemp();
+});
+
+function closeTaskModal() {
+  $("taskModal").classList.add("hidden");
+  $("taskModal").classList.remove("flex");
+  state.editingTaskId = null;
+  state.subtasksTemp = [];
+}
+
+$("btnCancelTask").addEventListener("click", closeTaskModal);
+$("taskModal").addEventListener("click", (e) => { if (e.target.id === "taskModal") closeTaskModal(); });
+
+$("btnSaveTask").addEventListener("click", async () => {
+  const judul = $("taskJudul").value.trim();
+  if (!judul) { toast("Judul task wajib diisi", "error"); return; }
+
+  const uid = state.user.uid;
+  const deadlineVal = $("taskDeadline").value;
+  const deadline = deadlineVal ? new Date(deadlineVal).getTime() : null;
+
+  const subtasksObj = {};
+  state.subtasksTemp.forEach(s => {
+    if (s.teks.trim()) {
+      const sid = s.id || push(ref(db)).key;
+      subtasksObj[sid] = { teks: s.teks.trim(), selesai: s.selesai || false };
+    }
+  });
+
+  const data = {
+    judul,
+    deskripsi: $("taskDeskripsi").value.trim(),
+    prioritas: $("taskPrioritas").value,
+    repeat: $("taskRepeat").value,
+    deadline,
+    subtasks: subtasksObj
+  };
+
+  if (state.editingTaskId) {
+    await update(ref(db, `users/${uid}/tasks/${state.editingTaskId}`), data);
+    toast("Task diupdate", "success");
+  } else {
+    const newRef = push(ref(db, `users/${uid}/tasks`));
+    data.selesai = false;
+    data.createdAt = Date.now();
+    await set(newRef, data);
+    toast("Task dibuat!", "success");
+  }
+  closeTaskModal();
+});
+
+async function deleteTask(taskId) {
+  if (!confirm("Hapus task ini?")) return;
+  await remove(ref(db, `users/${state.user.uid}/tasks/${taskId}`));
+  toast("Task dihapus", "info");
+}
+
+document.addEventListener("change", async (e) => {
+  if (e.target.dataset.subtaskToggle) {
+    const [taskId, sid] = e.target.dataset.subtaskToggle.split("__");
+    const t = state.tasks[taskId];
+    if (!t || !t.subtasks || !t.subtasks[sid]) return;
+    await update(ref(db, `users/${state.user.uid}/tasks/${taskId}/subtasks/${sid}`), {
+      selesai: e.target.checked
+    });
+  }
+});
+
+// ============ JOURNAL ============
+// ============ JOURNAL ============
+function renderJournal() {
+  const entries = Object.entries(state.journal).map(([id, j]) => ({ id, ...j }));
+  const sorted = entries.sort((a, b) => (b.tanggal || '').localeCompare(a.tanggal || ''));
+  const today = todayKey();
+  const todayEntry = entries.find(e => e.tanggal === today);
+
+  // Kalender
+  const y = state.journalMonth.getFullYear();
+  const m = state.journalMonth.getMonth();
+  const firstDay = new Date(y, m, 1).getDay();
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const monthName = state.journalMonth.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+  let calHtml = '';
+  const dayNames = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+  dayNames.forEach(d => calHtml += `<div class="text-xs text-gray-500 text-center font-semibold">${d}</div>`);
+  for (let i = 0; i < firstDay; i++) calHtml += `<div></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const entry = entries.find(e => e.tanggal === dateStr);
+    const isToday = dateStr === today;
+    calHtml += `<div class="cal-day ${entry ? 'has-entry' : ''} ${isToday ? 'today' : ''}" data-journal-date="${dateStr}" title="${entry ? (entry.text || '').slice(0, 50) : 'Belum ada entry'}">${entry ? ['😢','😕','😐','🙂','😄'][(entry.mood || 3) - 1] : d}</div>`;
+  }
+
+  $("content").innerHTML = `
+    <div class="max-w-5xl">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-1">📔 Journal</h1>
+          <p class="text-gray-400 text-sm">${entries.length} entry tercatat</p>
+        </div>
+        <button id="btnNewJournal" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+          ${todayEntry ? '✏️ Edit Hari Ini' : '+ Tulis Hari Ini'}
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-panel border border-border rounded-xl p-4 lg:col-span-2">
+          <div class="flex items-center justify-between mb-3">
+            <button id="calPrev" class="text-gray-400 hover:text-white px-2">←</button>
+            <div class="font-semibold">${monthName}</div>
+            <button id="calNext" class="text-gray-400 hover:text-white px-2">→</button>
+          </div>
+          <div class="grid grid-cols-7 gap-1">
+            ${calHtml}
+          </div>
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <h3 class="font-bold mb-3">📊 Statistik</h3>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span class="text-gray-400">Total entry</span><span class="font-bold">${entries.length}</span></div>
+            <div class="flex justify-between"><span class="text-gray-400">Rata-rata mood</span><span class="font-bold">${entries.length ? (entries.reduce((s,e) => s + (e.mood || 3), 0) / entries.length).toFixed(1) : '-'}</span></div>
+            <div class="flex justify-between"><span class="text-gray-400">Rata-rata energi</span><span class="font-bold">${entries.length ? (entries.reduce((s,e) => s + (e.energi || 5), 0) / entries.length).toFixed(1) : '-'}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <h3 class="font-bold mb-3">📖 Entry Terbaru</h3>
+        ${sorted.length === 0 
+          ? `<div class="bg-panel border border-border border-dashed rounded-xl p-12 text-center">
+              <div class="text-5xl mb-3">📔</div>
+              <h3 class="font-bold mb-2">Belum ada journal</h3>
+              <p class="text-gray-400 text-sm mb-4">Mulai tulis perasaanmu hari ini!</p>
+              <button id="btnNewJournalEmpty" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Tulis Journal</button>
+            </div>`
+          : `<div class="space-y-3">
+              ${sorted.slice(0, 10).map(j => journalCard(j)).join('')}
+            </div>`}
+      </div>
+    </div>`;
+
+  $("btnNewJournal").addEventListener("click", () => openJournalModal(todayEntry ? todayEntry.id : null, today));
+  const eEmpty = $("btnNewJournalEmpty");
+  if (eEmpty) eEmpty.addEventListener("click", () => openJournalModal(null, today));
+  $("calPrev").addEventListener("click", () => { state.journalMonth.setMonth(state.journalMonth.getMonth() - 1); renderJournal(); });
+  $("calNext").addEventListener("click", () => { state.journalMonth.setMonth(state.journalMonth.getMonth() + 1); renderJournal(); });
+
+  document.querySelectorAll("[data-journal-date]").forEach(el => {
+    el.addEventListener("click", () => {
+      const date = el.dataset.journalDate;
+      const entry = entries.find(e => e.tanggal === date);
+      if (entry) openJournalView(entry.id);
+      else openJournalModal(null, date);
+    });
+  });
+
+  document.querySelectorAll("[data-journal-view]").forEach(el => {
+    el.addEventListener("click", () => openJournalView(el.dataset.journalView));
+  });
+}
+
+function journalCard(j) {
+  const moodEmoji = ['😢','😕','😐','🙂','😄'][(j.mood || 3) - 1];
+  const tags = (j.tags || '').split(',').map(t => t.trim()).filter(t => t);
+  const textPreview = (j.text || '').slice(0, 200);
+  const isToday = j.tanggal === todayKey();
+
+  return `
+    <div class="bg-panel border border-border rounded-xl p-4 cursor-pointer hover:border-accent transition" data-journal-view="${j.id}">
+      <div class="flex items-start justify-between mb-2">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">${moodEmoji}</div>
+          <div>
+            <div class="font-semibold">${new Date(j.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+            <div class="text-xs text-gray-400">⚡ Energi: ${j.energi || 5}/10 ${isToday ? '· Hari ini' : ''}</div>
+          </div>
+        </div>
+      </div>
+      ${tags.length > 0 ? `<div class="mb-2">${tags.map(t => `<span class="tag-pill">#${esc(t)}</span>`).join('')}</div>` : ''}
+      <div class="text-sm text-gray-300">${esc(textPreview)}${(j.text || '').length > 200 ? '...' : ''}</div>
+    </div>`;
+}
+
+function openJournalModal(entryId = null, dateStr = null) {
+  const editing = entryId && state.journal[entryId];
+  $("journalModalTitle").textContent = editing ? "Edit Journal" : "Journal Baru";
+  state.editingJournalId = entryId;
+  state.editingJournalDate = editing ? editing.tanggal : (dateStr || todayKey());
+
+  if (editing) {
+    state.selectedMood = editing.mood || 3;
+    $("journalEnergy").value = editing.energi || 5;
+    $("energyValue").textContent = editing.energi || 5;
+    $("journalTags").value = editing.tags || "";
+    $("journalText").value = editing.text || "";
+  } else {
+    state.selectedMood = 3;
+    $("journalEnergy").value = 5;
+    $("energyValue").textContent = 5;
+    $("journalTags").value = "";
+    $("journalText").value = "";
+  }
+  updateMoodPicker();
+  $("journalModal").classList.remove("hidden");
+  $("journalModal").classList.add("flex");
+}
+
+function updateMoodPicker() {
+  document.querySelectorAll("#moodPicker .mood-btn").forEach(b => {
+    b.classList.toggle("selected", +b.dataset.mood === state.selectedMood);
+  });
+}
+
+document.querySelectorAll("#moodPicker .mood-btn").forEach(b => {
+  b.addEventListener("click", () => {
+    state.selectedMood = +b.dataset.mood;
+    updateMoodPicker();
+  });
+});
+
+$("journalEnergy").addEventListener("input", (e) => { $("energyValue").textContent = e.target.value; });
+
+function closeJournalModal() {
+  $("journalModal").classList.add("hidden");
+  $("journalModal").classList.remove("flex");
+  state.editingJournalId = null;
+}
+
+$("btnCancelJournal").addEventListener("click", closeJournalModal);
+$("journalModal").addEventListener("click", (e) => { if (e.target.id === "journalModal") closeJournalModal(); });
+
+$("btnSaveJournal").addEventListener("click", async () => {
+  const uid = state.user.uid;
+  const data = {
+    tanggal: state.editingJournalDate,
+    mood: state.selectedMood,
+    energi: +$("journalEnergy").value,
+    tags: $("journalTags").value.trim(),
+    text: $("journalText").value.trim(),
+    updatedAt: Date.now()
+  };
+
+  if (state.editingJournalId) {
+    await update(ref(db, `users/${uid}/journal/${state.editingJournalId}`), data);
+    toast("Journal diupdate", "success");
+  } else {
+    const newRef = push(ref(db, `users/${uid}/journal`));
+    data.createdAt = Date.now();
+    await set(newRef, data);
+    toast("Journal disimpan!", "success");
+  }
+  closeJournalModal();
+});
+
+function openJournalView(entryId) {
+  const j = state.journal[entryId];
+  if (!j) return;
+  const moodEmoji = ['😢','😕','😐','🙂','😄'][(j.mood || 3) - 1];
+  const tags = (j.tags || '').split(',').map(t => t.trim()).filter(t => t);
+  $("journalViewTitle").textContent = new Date(j.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  $("journalViewContent").innerHTML = `
+    <div class="flex items-center gap-4 mb-4">
+      <div class="text-5xl">${moodEmoji}</div>
+      <div>
+        <div class="text-sm text-gray-400">⚡ Energi: ${j.energi || 5}/10</div>
+        ${tags.length > 0 ? `<div class="mt-1">${tags.map(t => `<span class="tag-pill">#${esc(t)}</span>`).join('')}</div>` : ''}
+      </div>
+    </div>
+    <div class="markdown-preview">${md(j.text || '')}</div>
+    <div class="flex gap-2 mt-6 pt-4 border-t border-border">
+      <button id="btnEditJournalView" class="flex-1 bg-accent hover:bg-accent/80 text-white py-2 rounded-lg text-sm font-semibold transition">✏️ Edit</button>
+      <button id="btnDelJournalView" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-lg text-sm transition">🗑️</button>
+    </div>`;
+  $("journalViewModal").classList.remove("hidden");
+  $("journalViewModal").classList.add("flex");
+
+  $("btnEditJournalView").addEventListener("click", () => {
+    $("journalViewModal").classList.add("hidden");
+    $("journalViewModal").classList.remove("flex");
+    openJournalModal(entryId);
+  });
+  $("btnDelJournalView").addEventListener("click", async () => {
+    if (!confirm("Hapus journal ini?")) return;
+    await remove(ref(db, `users/${state.user.uid}/journal/${entryId}`));
+    $("journalViewModal").classList.add("hidden");
+    $("journalViewModal").classList.remove("flex");
+    toast("Journal dihapus", "info");
+  });
+}
+
+$("btnCloseJournalView").addEventListener("click", () => {
+  $("journalViewModal").classList.add("hidden");
+  $("journalViewModal").classList.remove("flex");
+});
+
+// ============ GOALS ============
+function renderGoals() {
+  const goals = Object.entries(state.goals).map(([id, g]) => ({ id, ...g }));
+
+  $("content").innerHTML = `
+    <div class="max-w-5xl">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-1">🎯 Goals</h1>
+          <p class="text-gray-400 text-sm">${goals.length} goal aktif</p>
+        </div>
+        <button id="btnNewGoal" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Goal Baru</button>
+      </div>
+
+      ${goals.length === 0 
+        ? `<div class="bg-panel border border-border border-dashed rounded-xl p-12 text-center">
+            <div class="text-5xl mb-3">🎯</div>
+            <h3 class="font-bold mb-2">Belum ada goal</h3>
+            <p class="text-gray-400 text-sm mb-4">Tetapkan target jangka panjang buat hidupmu!</p>
+            <button id="btnNewGoalEmpty" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Bikin Goal Pertama</button>
+          </div>`
+        : `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${goals.map(g => goalCard(g)).join('')}
+          </div>`}
+    </div>`;
+
+  const btnNew = $("btnNewGoal") || $("btnNewGoalEmpty");
+  if (btnNew) btnNew.addEventListener("click", () => openGoalModal());
+
+  document.querySelectorAll("[data-goal-edit]").forEach(el => {
+    el.addEventListener("click", (e) => { e.stopPropagation(); openGoalModal(el.dataset.goalEdit); });
+  });
+  document.querySelectorAll("[data-goal-del]").forEach(el => {
+    el.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      if (!confirm("Hapus goal ini?")) return;
+      await remove(ref(db, `users/${state.user.uid}/goals/${el.dataset.goalDel}`));
+      toast("Goal dihapus", "info");
+    });
+  });
+  document.querySelectorAll("[data-milestone-toggle]").forEach(el => {
+    el.addEventListener("change", async (e) => {
+      const [goalId, mid] = el.dataset.milestoneToggle.split("__");
+      await update(ref(db, `users/${state.user.uid}/goals/${goalId}/milestones/${mid}`), { selesai: e.target.checked });
+    });
+  });
+}
+
+function goalCard(g) {
+  const mTotal = g.milestones ? Object.keys(g.milestones).length : 0;
+  const mDone = g.milestones ? Object.values(g.milestones).filter(m => m.selesai).length : 0;
+  const pct = mTotal > 0 ? Math.round(mDone / mTotal * 100) : 0;
+  const targetDate = g.target ? new Date(g.target) : null;
+  const daysLeft = targetDate ? Math.ceil((targetDate - new Date()) / 86400000) : null;
+
+  return `
+    <div class="bg-panel border border-border rounded-xl p-5 hover:border-accent/50 transition">
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex-1 min-w-0">
+          <div class="text-xs text-gray-400 mb-1">${esc(g.kategori || '')}</div>
+          <div class="font-bold text-lg">${esc(g.judul)}</div>
+          ${g.deskripsi ? `<div class="text-sm text-gray-400 mt-1">${esc(g.deskripsi)}</div>` : ''}
+        </div>
+        <div class="flex gap-1 flex-shrink-0">
+          <button data-goal-edit="${g.id}" class="text-gray-500 hover:text-accent text-sm px-1 transition">✏️</button>
+          <button data-goal-del="${g.id}" class="text-gray-500 hover:text-red-400 text-sm px-1 transition">🗑️</button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="flex justify-between text-xs text-gray-400 mb-1">
+          <span>Progress</span>
+          <span>${mDone}/${mTotal} (${pct}%)</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+
+      ${targetDate ? `
+        <div class="text-xs text-gray-400 mb-3">
+          📅 Target: ${targetDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+          ${daysLeft !== null ? `<span class="${daysLeft < 0 ? 'text-red-400' : daysLeft < 7 ? 'text-yellow-400' : ''}"> · ${daysLeft < 0 ? `Lewat ${Math.abs(daysLeft)} hari` : `${daysLeft} hari lagi`}</span>` : ''}
+        </div>
+      ` : ''}
+
+      ${mTotal > 0 ? `
+        <div class="space-y-1 pt-3 border-t border-border">
+          ${Object.entries(g.milestones).map(([mid, m]) => `
+            <div class="subtask ${m.selesai ? 'done' : ''}">
+              <input type="checkbox" ${m.selesai ? 'checked' : ''} data-milestone-toggle="${g.id}__${mid}" />
+              <label class="cursor-pointer text-sm text-gray-300">${esc(m.teks)}</label>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>`;
+}
+
+function openGoalModal(goalId = null) {
+  state.editingGoalId = goalId;
+  state.milestonesTemp = [];
+  $("goalModalTitle").textContent = goalId ? "Edit Goal" : "Goal Baru";
+
+  if (goalId) {
+    const g = state.goals[goalId];
+    $("goalJudul").value = g.judul || "";
+    $("goalDeskripsi").value = g.deskripsi || "";
+    $("goalKategori").value = g.kategori || "🎓 Belajar";
+    $("goalTarget").value = g.target || "";
+    if (g.milestones) {
+      state.milestonesTemp = Object.entries(g.milestones).map(([id, m]) => ({ id, teks: m.teks, selesai: m.selesai }));
+    }
+  } else {
+    $("goalJudul").value = ""; $("goalDeskripsi").value = "";
+    $("goalKategori").value = "🎓 Belajar";
+    $("goalTarget").value = "";
+  }
+  renderMilestonesTemp();
+  $("goalModal").classList.remove("hidden");
+  $("goalModal").classList.add("flex");
+}
+
+function renderMilestonesTemp() {
+  $("milestoneList").innerHTML = state.milestonesTemp.map((m, i) => `
+    <div class="flex gap-2 items-center">
+      <input type="text" value="${esc(m.teks)}" data-milestone-idx="${i}" class="milestone-input flex-1 bg-bg border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-accent" placeholder="Milestone..." />
+      <button data-milestone-del="${i}" class="text-gray-500 hover:text-red-400 text-sm px-2">✕</button>
+    </div>
+  `).join("");
+  document.querySelectorAll(".milestone-input").forEach(inp => {
+    inp.addEventListener("input", (e) => { state.milestonesTemp[+e.target.dataset.milestoneIdx].teks = e.target.value; });
+  });
+  document.querySelectorAll("[data-milestone-del]").forEach(b => {
+    b.addEventListener("click", () => { state.milestonesTemp.splice(+b.dataset.milestoneDel, 1); renderMilestonesTemp(); });
+  });
+}
+
+$("btnAddMilestone").addEventListener("click", () => {
+  state.milestonesTemp.push({ teks: "", selesai: false });
+  renderMilestonesTemp();
+});
+
+function closeGoalModal() {
+  $("goalModal").classList.add("hidden");
+  $("goalModal").classList.remove("flex");
+  state.editingGoalId = null;
+  state.milestonesTemp = [];
+}
+
+$("btnCancelGoal").addEventListener("click", closeGoalModal);
+$("goalModal").addEventListener("click", (e) => { if (e.target.id === "goalModal") closeGoalModal(); });
+
+$("btnSaveGoal").addEventListener("click", async () => {
+  const judul = $("goalJudul").value.trim();
+  if (!judul) { toast("Judul goal wajib diisi", "error"); return; }
+
+  const uid = state.user.uid;
+  const milestonesObj = {};
+  state.milestonesTemp.forEach(m => {
+    if (m.teks.trim()) {
+      const mid = m.id || push(ref(db)).key;
+      milestonesObj[mid] = { teks: m.teks.trim(), selesai: m.selesai || false };
+    }
+  });
+
+  const data = {
+    judul,
+    deskripsi: $("goalDeskripsi").value.trim(),
+    kategori: $("goalKategori").value,
+    target: $("goalTarget").value || null,
+    milestones: milestonesObj
+  };
+
+  if (state.editingGoalId) {
+    await update(ref(db, `users/${uid}/goals/${state.editingGoalId}`), data);
+    toast("Goal diupdate", "success");
+  } else {
+    const newRef = push(ref(db, `users/${uid}/goals`));
+    data.createdAt = Date.now();
+    await set(newRef, data);
+    toast("Goal dibuat!", "success");
+  }
+  closeGoalModal();
+});
+
+// ============ NOTES ============
+function renderNotes() {
+  const notes = Object.entries(state.notes).map(([id, n]) => ({ id, ...n }));
+  const folders = [...new Set(notes.map(n => n.folder).filter(f => f))];
+
+  let filtered = notes;
+  if (state.noteFolderFilter !== "all") filtered = filtered.filter(n => n.folder === state.noteFolderFilter);
+  if (state.noteSearch) {
+    const q = state.noteSearch.toLowerCase();
+    filtered = filtered.filter(n => (n.judul || '').toLowerCase().includes(q) || (n.isi || '').toLowerCase().includes(q));
+  }
+  filtered.sort((a, b) => {
+    if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+    return (b.updatedAt || 0) - (a.updatedAt || 0);
+  });
+
+  $("content").innerHTML = `
+    <div class="max-w-6xl">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-1">📝 Notes</h1>
+          <p class="text-gray-400 text-sm">${notes.length} catatan · ${folders.length} folder</p>
+        </div>
+        <button id="btnNewNote" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Note Baru</button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="lg:col-span-1">
+          <div class="bg-panel border border-border rounded-xl p-3">
+            <input id="noteSearchInput" type="text" placeholder="🔍 Cari..." value="${esc(state.noteSearch)}" class="w-full bg-bg border border-border rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:border-accent" />
+            <div class="folder-item ${state.noteFolderFilter === 'all' ? 'active' : ''}" data-folder="all">📚 Semua (${notes.length})</div>
+            <div class="folder-item ${state.noteFolderFilter === '__none__' ? 'active' : ''}" data-folder="__none__">📄 Tanpa Folder</div>
+            ${folders.map(f => `<div class="folder-item ${state.noteFolderFilter === f ? 'active' : ''}" data-folder="${esc(f)}">📁 ${esc(f)} (${notes.filter(n => n.folder === f).length})</div>`).join('')}
+          </div>
+        </div>
+
+        <div class="lg:col-span-3">
+          ${filtered.length === 0 
+            ? `<div class="bg-panel border border-border border-dashed rounded-xl p-12 text-center">
+                <div class="text-5xl mb-3">📝</div>
+                <h3 class="font-bold mb-2">Belum ada note</h3>
+                <p class="text-gray-400 text-sm mb-4">Bikin catatan pertamamu dengan markdown!</p>
+                <button id="btnNewNoteEmpty" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Bikin Note</button>
+              </div>`
+            : `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                ${filtered.map(n => noteCard(n)).join('')}
+              </div>`}
+        </div>
+      </div>
+    </div>`;
+
+  $("btnNewNote").addEventListener("click", () => openNoteModal());
+  const eEmpty = $("btnNewNoteEmpty");
+  if (eEmpty) eEmpty.addEventListener("click", () => openNoteModal());
+
+  const searchInput = $("noteSearchInput");
+  searchInput.addEventListener("input", (e) => {
+    state.noteSearch = e.target.value;
+    clearTimeout(window._searchTimer);
+    window._searchTimer = setTimeout(() => renderNotes(), 300);
+  });
+
+  document.querySelectorAll("[data-folder]").forEach(el => {
+    el.addEventListener("click", () => {
+      state.noteFolderFilter = el.dataset.folder;
+      renderNotes();
+    });
+  });
+
+  document.querySelectorAll("[data-note-open]").forEach(el => {
+    el.addEventListener("click", () => openNoteModal(el.dataset.noteOpen));
+  });
+
+  document.querySelectorAll("[data-note-pin]").forEach(el => {
+    el.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      const nid = el.dataset.notePin;
+      const n = state.notes[nid];
+      await update(ref(db, `users/${state.user.uid}/notes/${nid}`), { pinned: !n.pinned });
+    });
+  });
+
+  document.querySelectorAll("[data-note-del]").forEach(el => {
+    el.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      if (!confirm("Hapus note ini?")) return;
+      await remove(ref(db, `users/${state.user.uid}/notes/${el.dataset.noteDel}`));
+      toast("Note dihapus", "info");
+    });
+  });
+}
+
+function noteCard(n) {
+  const tags = (n.tags || '').split(',').map(t => t.trim()).filter(t => t);
+  return `
+    <div class="note-card bg-panel border ${n.pinned ? 'pinned' : 'border-border'} rounded-xl p-4 cursor-pointer" data-note-open="${n.id}">
+      <div class="flex items-start justify-between mb-2">
+        <div class="font-semibold truncate flex-1">${n.pinned ? '📌 ' : ''}${esc(n.judul)}</div>
+        <div class="flex gap-1 flex-shrink-0">
+          <button data-note-pin="${n.id}" class="text-gray-500 hover:text-yellow-400 text-sm px-1 transition">${n.pinned ? '📌' : '📍'}</button>
+          <button data-note-del="${n.id}" class="text-gray-500 hover:text-red-400 text-sm px-1 transition">🗑️</button>
+        </div>
+      </div>
+      ${n.folder ? `<div class="text-xs text-gray-400 mb-2">📁 ${esc(n.folder)}</div>` : ''}
+      <div class="text-xs text-gray-400 line-clamp-3">${esc((n.isi || '').slice(0, 150))}...</div>
+      ${tags.length > 0 ? `<div class="mt-2">${tags.map(t => `<span class="tag-pill">#${esc(t)}</span>`).join('')}</div>` : ''}
+    </div>`;
+}
+
+function openNoteModal(noteId = null) {
+  state.editingNoteId = noteId;
+  $("noteModalTitle").textContent = noteId ? "Edit Note" : "Note Baru";
+  $("notePreview").classList.add("hidden");
+  $("noteIsi").classList.remove("hidden");
+
+  if (noteId) {
+    const n = state.notes[noteId];
+    $("noteJudul").value = n.judul || "";
+    $("noteFolder").value = n.folder || "";
+    $("noteTags").value = n.tags || "";
+    $("noteIsi").value = n.isi || "";
+    $("notePinned").checked = !!n.pinned;
+  } else {
+    $("noteJudul").value = ""; $("noteFolder").value = "";
+    $("noteTags").value = ""; $("noteIsi").value = "";
+    $("notePinned").checked = false;
+  }
+  $("noteModal").classList.remove("hidden");
+  $("noteModal").classList.add("flex");
+}
+
+$("btnTogglePreview").addEventListener("click", () => {
+  const preview = $("notePreview");
+  const textarea = $("noteIsi");
+  if (preview.classList.contains("hidden")) {
+    preview.innerHTML = md(textarea.value);
+    preview.classList.remove("hidden");
+    textarea.classList.add("hidden");
+    $("btnTogglePreview").textContent = "✏️ Edit";
+  } else {
+    preview.classList.add("hidden");
+    textarea.classList.remove("hidden");
+    $("btnTogglePreview").textContent = "👁️ Preview";
+  }
+});
+
+function closeNoteModal() {
+  $("noteModal").classList.add("hidden");
+  $("noteModal").classList.remove("flex");
+  state.editingNoteId = null;
+}
+
+$("btnCancelNote").addEventListener("click", closeNoteModal);
+$("noteModal").addEventListener("click", (e) => { if (e.target.id === "noteModal") closeNoteModal(); });
+
+$("btnSaveNote").addEventListener("click", async () => {
+  const judul = $("noteJudul").value.trim();
+  if (!judul) { toast("Judul note wajib diisi", "error"); return; }
+
+  const uid = state.user.uid;
+  const data = {
+    judul,
+    folder: $("noteFolder").value.trim(),
+    tags: $("noteTags").value.trim(),
+    isi: $("noteIsi").value,
+    pinned: $("notePinned").checked,
+    updatedAt: Date.now()
+  };
+
+  if (state.editingNoteId) {
+    await update(ref(db, `users/${uid}/notes/${state.editingNoteId}`), data);
+    toast("Note diupdate", "success");
+  } else {
+    const newRef = push(ref(db, `users/${uid}/notes`));
+    data.createdAt = Date.now();
+    await set(newRef, data);
+    toast("Note dibuat!", "success");
+  }
+  closeNoteModal();
+});
+
+// ============ FINANCE ============
+function renderFinance() {
+  const txs = Object.entries(state.finance).map(([id, t]) => ({ id, ...t }));
+  const now = new Date();
+  const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+  let filtered = txs;
+  if (state.financeFilter === "bulan") filtered = txs.filter(t => t.tanggal && t.tanggal.startsWith(thisMonth));
+  filtered.sort((a, b) => (b.tanggal || '').localeCompare(a.tanggal || '') || (b.createdAt || 0) - (a.createdAt || 0));
+
+  const totalIncome = filtered.filter(t => t.tipe === 'income').reduce((s, t) => s + Number(t.jumlah), 0);
+  const totalExpense = filtered.filter(t => t.tipe === 'expense').reduce((s, t) => s + Number(t.jumlah), 0);
+  const balance = totalIncome - totalExpense;
+
+  // Kategori breakdown
+  const catMap = {};
+  filtered.filter(t => t.tipe === 'expense').forEach(t => {
+    catMap[t.kategori] = (catMap[t.kategori] || 0) + Number(t.jumlah);
+  });
+  const catSorted = Object.entries(catMap).sort((a, b) => b[1] - a[1]);
+
+  $("content").innerHTML = `
+    <div class="max-w-5xl">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-1">💰 Finance</h1>
+          <p class="text-gray-400 text-sm">${filtered.length} transaksi</p>
+        </div>
+        <button id="btnNewTx" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Transaksi</button>
+      </div>
+
+      <div class="flex gap-2 mb-4">
+        <button class="filter-btn ${state.financeFilter==='bulan'?'active':''}" data-ffinance="bulan">📅 Bulan Ini</button>
+        <button class="filter-btn ${state.financeFilter==='semua'?'active':''}" data-ffinance="semua">📚 Semua</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-sm text-gray-400 mb-1">💰 Pemasukan</div>
+          <div class="text-2xl font-bold text-green-400">${fmtRupiah(totalIncome)}</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-sm text-gray-400 mb-1">💸 Pengeluaran</div>
+          <div class="text-2xl font-bold text-red-400">${fmtRupiah(totalExpense)}</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-sm text-gray-400 mb-1">💵 Sisa</div>
+          <div class="text-2xl font-bold ${balance >= 0 ? 'text-accent2' : 'text-red-400'}">${fmtRupiah(balance)}</div>
+        </div>
+      </div>
+
+      ${catSorted.length > 0 ? `
+        <div class="bg-panel border border-border rounded-xl p-5 mb-6">
+          <h3 class="font-bold mb-3">📊 Pengeluaran per Kategori</h3>
+          <div class="space-y-3">
+            ${catSorted.map(([cat, amt]) => {
+              const pct = Math.round(amt / totalExpense * 100);
+              return `<div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>${esc(cat)}</span>
+                  <span class="text-gray-400">${fmtRupiah(amt)} (${pct}%)</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${filtered.length === 0 
+        ? `<div class="bg-panel border border-border border-dashed rounded-xl p-12 text-center">
+            <div class="text-5xl mb-3">💸</div>
+            <h3 class="font-bold mb-2">Belum ada transaksi</h3>
+            <p class="text-gray-400 text-sm mb-4">Mulai catat pengeluaran & pemasukanmu!</p>
+            <button id="btnNewTxEmpty" class="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">+ Catat Transaksi</button>
+          </div>`
+        : `<div class="space-y-2">${filtered.map(t => txItem(t)).join('')}</div>`}
+    </div>`;
+
+  $("btnNewTx").addEventListener("click", () => openTxModal());
+  const eEmpty = $("btnNewTxEmpty");
+  if (eEmpty) eEmpty.addEventListener("click", () => openTxModal());
+
+  document.querySelectorAll("[data-ffinance]").forEach(b => {
+    b.addEventListener("click", () => { state.financeFilter = b.dataset.ffinance; renderFinance(); });
+  });
+  document.querySelectorAll("[data-tx-edit]").forEach(el => {
+    el.addEventListener("click", () => openTxModal(el.dataset.txEdit));
+  });
+  document.querySelectorAll("[data-tx-del]").forEach(el => {
+    el.addEventListener("click", async () => {
+      if (!confirm("Hapus transaksi ini?")) return;
+      await remove(ref(db, `users/${state.user.uid}/finance/${el.dataset.txDel}`));
+      toast("Transaksi dihapus", "info");
+    });
+  });
+}
+
+function txItem(t) {
+  const isIncome = t.tipe === 'income';
+  return `
+    <div class="tx-item ${isIncome ? 'income' : 'expense'}">
+      <div class="text-2xl">${(t.kategori || '📦').split(' ')[0]}</div>
+      <div class="flex-1 min-w-0">
+        <div class="font-semibold text-sm">${esc(t.kategori || '')}</div>
+        ${t.catatan ? `<div class="text-xs text-gray-400">${esc(t.catatan)}</div>` : ''}
+        <div class="text-xs text-gray-500">${t.tanggal}</div>
+      </div>
+      <div class="text-right">
+        <div class="font-bold ${isIncome ? 'text-green-400' : 'text-red-400'}">${isIncome ? '+' : '-'} ${fmtRupiah(t.jumlah)}</div>
+      </div>
+      <div class="flex gap-1">
+        <button data-tx-edit="${t.id}" class="text-gray-500 hover:text-accent text-sm px-1">✏️</button>
+        <button data-tx-del="${t.id}" class="text-gray-500 hover:text-red-400 text-sm px-1">🗑️</button>
+      </div>
+    </div>`;
+}
+
+function openTxModal(txId = null) {
+  state.editingTxId = txId;
+  $("financeModalTitle").textContent = txId ? "Edit Transaksi" : "Transaksi Baru";
+
+  if (txId) {
+    const t = state.finance[txId];
+    $("txTipe").value = t.tipe || "expense";
+    $("txJumlah").value = t.jumlah || "";
+    $("txKategori").value = t.kategori || "🍔 Makanan";
+    $("txCatatan").value = t.catatan || "";
+    $("txTanggal").value = t.tanggal || todayKey();
+  } else {
+    $("txTipe").value = "expense";
+    $("txJumlah").value = "";
+    $("txKategori").value = "🍔 Makanan";
+    $("txCatatan").value = "";
+    $("txTanggal").value = todayKey();
+  }
+  $("financeModal").classList.remove("hidden");
+  $("financeModal").classList.add("flex");
+}
+
+function closeTxModal() {
+  $("financeModal").classList.add("hidden");
+  $("financeModal").classList.remove("flex");
+  state.editingTxId = null;
+}
+
+$("btnCancelTx").addEventListener("click", closeTxModal);
+$("financeModal").addEventListener("click", (e) => { if (e.target.id === "financeModal") closeTxModal(); });
+
+$("btnSaveTx").addEventListener("click", async () => {
+  const jumlah = $("txJumlah").value;
+  if (!jumlah || +jumlah <= 0) { toast("Jumlah harus > 0", "error"); return; }
+
+  const uid = state.user.uid;
+  const data = {
+    tipe: $("txTipe").value,
+    jumlah: +jumlah,
+    kategori: $("txKategori").value,
+    catatan: $("txCatatan").value.trim(),
+    tanggal: $("txTanggal").value || todayKey()
+  };
+
+  if (state.editingTxId) {
+    await update(ref(db, `users/${uid}/finance/${state.editingTxId}`), data);
+    toast("Transaksi diupdate", "success");
+  } else {
+    const newRef = push(ref(db, `users/${uid}/finance`));
+    data.createdAt = Date.now();
+    await set(newRef, data);
+    toast("Transaksi dicatat!", "success");
+  }
+  closeTxModal();
+});
+
+// ===== INIT =====
+window.addEventListener("load", () => {
+  if (new Date().getHours() < 4) {
+    setTimeout(() => toast("🌙 Reset harian jam 04:00 — habit hari ini belum reset", "info"), 2000);
+  }
+});
 </script>
 </body>
 </html>
