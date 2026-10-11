@@ -1,93 +1,199 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LifeQuest — Track Your Life</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: { bg: '#0f0f14', panel: '#18181f', border: '#27272f', accent: '#7c5cff', accent2: '#4ade80' },
-        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
-      }
-    }
-  }
-</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * { scrollbar-width: thin; scrollbar-color: #27272f transparent; }
+  :root {
+    --bg: #0f0f14;
+    --panel: #18181f;
+    --border: #27272f;
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --hover: #1f1f28;
+    --accent: #7c5cff;
+    --accent2: #4ade80;
+    --input-bg: #0f0f14;
+  }
+  [data-theme="light"] {
+    --bg: #f5f5fa;
+    --panel: #ffffff;
+    --border: #e5e7eb;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --text-dim: #9ca3af;
+    --hover: #f3f4f6;
+    --accent: #7c5cff;
+    --accent2: #16a34a;
+    --input-bg: #ffffff;
+  }
+
+  * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
   *::-webkit-scrollbar { width: 8px; height: 8px; }
-  *::-webkit-scrollbar-thumb { background: #27272f; border-radius: 4px; }
-  .nav-item { display:flex; align-items:center; gap:0.6rem; padding:0.5rem 0.75rem; border-radius:0.5rem; font-size:0.875rem; color:#9ca3af; transition:all 0.15s; text-decoration:none; cursor:pointer; }
-  .nav-item:hover { background:#0f0f14; color:#e5e7eb; }
+  *::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .bg-bg { background: var(--bg); }
+  .bg-panel { background: var(--panel); }
+  .border-border { border-color: var(--border); }
+  .text-muted { color: var(--text-muted); }
+  .text-dim { color: var(--text-dim); }
+
+  .nav-item { display:flex; align-items:center; gap:0.6rem; padding:0.5rem 0.75rem; border-radius:0.5rem; font-size:0.875rem; color:var(--text-muted); transition:all 0.15s; text-decoration:none; cursor:pointer; }
+  .nav-item:hover { background: var(--bg); color: var(--text); }
   .nav-item.active { background:rgba(124,92,255,0.15); color:#a78bfa; font-weight:600; }
+  [data-theme="light"] .nav-item.active { color: var(--accent); }
+
   #xpBar, #hpBar { transition: width 0.4s ease-out; }
-  .toast { position:fixed; bottom:1.5rem; right:1.5rem; background:#18181f; border:1px solid #27272f; padding:0.75rem 1rem; border-radius:0.5rem; font-size:0.875rem; z-index:100; animation:slideIn 0.3s ease-out; box-shadow:0 10px 30px rgba(0,0,0,0.4); max-width:320px; }
+
+  .toast { position:fixed; bottom:1.5rem; right:1.5rem; background: var(--panel); border:1px solid var(--border); padding:0.75rem 1rem; border-radius:0.5rem; font-size:0.875rem; z-index:100; animation:slideIn 0.3s ease-out; box-shadow:0 10px 30px rgba(0,0,0,0.2); max-width:320px; color: var(--text); }
   @keyframes slideIn { from { transform:translateX(100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
-  .loader { border:3px solid #27272f; border-top:3px solid #7c5cff; border-radius:50%; width:40px; height:40px; animation:spin 0.8s linear infinite; margin:2rem auto; }
+
+  .loader { border:3px solid var(--border); border-top:3px solid var(--accent); border-radius:50%; width:40px; height:40px; animation:spin 0.8s linear infinite; margin:2rem auto; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
   .habit-card { transition: all 0.2s; }
-  .habit-card:hover { transform: translateY(-2px); border-color: #7c5cff; }
-  .habit-card.done { opacity: 0.6; border-color: #4ade80; }
+  .habit-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .habit-card.done { opacity: 0.6; border-color: var(--accent2); }
+
   .task-item { transition: all 0.15s; }
-  .task-item:hover { background: #1f1f28; }
+  .task-item:hover { background: var(--hover); }
   .task-item.done { opacity: 0.5; text-decoration: line-through; }
+
   .modal-backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+  [data-theme="light"] .modal-backdrop { background: rgba(0,0,0,0.4); }
+
   .pop-anim { animation: pop 0.4s ease-out; }
   @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
-  .checkbox-custom { width: 22px; height: 22px; border: 2px solid #4b5563; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
-  .checkbox-custom:hover { border-color: #7c5cff; }
-  .checkbox-custom.checked { background: #4ade80; border-color: #4ade80; color: white; }
-  .filter-btn { padding: 0.4rem 0.9rem; border-radius: 0.5rem; font-size: 0.8rem; color: #9ca3af; background: transparent; border: 1px solid transparent; transition: all 0.15s; cursor: pointer; }
-  .filter-btn:hover { background: #18181f; color: #e5e7eb; }
-  .filter-btn.active { background: rgba(124,92,255,0.15); color: #a78bfa; border-color: rgba(124,92,255,0.3); font-weight: 600; }
+
+  .checkbox-custom { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
+  .checkbox-custom:hover { border-color: var(--accent); }
+  .checkbox-custom.checked { background: var(--accent2); border-color: var(--accent2); color: white; }
+
+  .filter-btn { padding: 0.4rem 0.9rem; border-radius: 0.5rem; font-size: 0.8rem; color: var(--text-muted); background: transparent; border: 1px solid transparent; transition: all 0.15s; cursor: pointer; }
+  .filter-btn:hover { background: var(--hover); color: var(--text); }
+  .filter-btn.active { background: rgba(124,92,255,0.15); color: var(--accent); border-color: rgba(124,92,255,0.3); font-weight: 600; }
+
   .subtask { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; font-size: 0.85rem; }
-  .subtask input[type="checkbox"] { accent-color: #7c5cff; }
+  .subtask input[type="checkbox"] { accent-color: var(--accent); }
   .subtask.done label { text-decoration: line-through; opacity: 0.5; }
-  .mood-btn { font-size: 2rem; padding: 0.5rem; border-radius: 0.75rem; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; }
+
+  .mood-btn { font-size: 2rem; padding: 0.5rem; border-radius: 0.75rem; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; background: transparent; }
   .mood-btn:hover { transform: scale(1.15); }
-  .mood-btn.selected { border-color: #7c5cff; background: rgba(124,92,255,0.15); }
+  .mood-btn.selected { border-color: var(--accent); background: rgba(124,92,255,0.15); }
+
   .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; }
-  .cal-day:hover { background: #27272f; }
+  .cal-day:hover { background: var(--hover); }
   .cal-day.has-entry { background: rgba(124,92,255,0.2); }
-  .cal-day.today { border: 2px solid #7c5cff; font-weight: bold; }
+  .cal-day.today { border: 2px solid var(--accent); font-weight: bold; }
+
   .tag-pill { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.7rem; background: rgba(124,92,255,0.15); color: #a78bfa; margin-right: 0.25rem; margin-bottom: 0.25rem; }
+  [data-theme="light"] .tag-pill { color: var(--accent); }
+
   .note-card { transition: all 0.2s; cursor: pointer; }
-  .note-card:hover { transform: translateY(-2px); border-color: #7c5cff; }
+  .note-card:hover { transform: translateY(-2px); border-color: var(--accent); }
   .note-card.pinned { border-color: #fbbf24; }
-  .folder-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.6rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.85rem; color: #9ca3af; transition: all 0.15s; }
-  .folder-item:hover { background: #0f0f14; color: #e5e7eb; }
-  .folder-item.active { background: rgba(124,92,255,0.15); color: #a78bfa; font-weight: 600; }
-  .progress-bar { height: 8px; background: #0f0f14; border-radius: 999px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, #7c5cff, #4ade80); transition: width 0.5s ease-out; }
-  .tx-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #27272f; background: #18181f; }
-  .tx-item.income { border-left: 3px solid #4ade80; }
+
+  .folder-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.6rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.85rem; color: var(--text-muted); transition: all 0.15s; }
+  .folder-item:hover { background: var(--bg); color: var(--text); }
+  .folder-item.active { background: rgba(124,92,255,0.15); color: var(--accent); font-weight: 600; }
+
+  .progress-bar { height: 8px; background: var(--bg); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.5s ease-out; }
+
+  .tx-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--panel); }
+  .tx-item.income { border-left: 3px solid var(--accent2); }
   .tx-item.expense { border-left: 3px solid #ef4444; }
+
   .markdown-preview h1 { font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; }
   .markdown-preview h2 { font-size: 1.25rem; font-weight: bold; margin: 0.5rem 0; }
   .markdown-preview h3 { font-size: 1.1rem; font-weight: 600; margin: 0.4rem 0; }
   .markdown-preview p { margin: 0.4rem 0; }
-  .markdown-preview ul, .markdown-preview ol { margin: 0.4rem 0 0.4rem 1.5rem; }
+  .markdown-preview ul, .markdown-preview ol { margin: 0.4rem 0 0.4rem 1.5rem; list-style: disc; }
   .markdown-preview li { margin: 0.2rem 0; }
-  .markdown-preview code { background: #0f0f14; padding: 0.1rem 0.4rem; border-radius: 0.25rem; font-size: 0.85rem; }
-  .markdown-preview pre { background: #0f0f14; padding: 0.75rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.5rem 0; }
-  .markdown-preview a { color: #a78bfa; text-decoration: underline; }
-  .markdown-preview strong { color: #e5e7eb; }
-  .markdown-preview blockquote { border-left: 3px solid #7c5cff; padding-left: 0.75rem; color: #9ca3af; margin: 0.5rem 0; }
+  .markdown-preview code { background: var(--bg); padding: 0.1rem 0.4rem; border-radius: 0.25rem; font-size: 0.85rem; }
+  .markdown-preview pre { background: var(--bg); padding: 0.75rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.5rem 0; }
+  .markdown-preview a { color: var(--accent); text-decoration: underline; }
+  .markdown-preview strong { color: var(--text); }
+  .markdown-preview blockquote { border-left: 3px solid var(--accent); padding-left: 0.75rem; color: var(--text-muted); margin: 0.5rem 0; }
+
+  /* Input styling */
+  input, select, textarea {
+    background: var(--input-bg) !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-dim) !important; }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent) !important; outline: none; }
+
+  /* Card text */
+  .card-title { color: var(--text); }
+  .card-muted { color: var(--text-muted); }
+
+  .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  /* Sidebar responsive */
+  @media (max-width: 768px) {
+    #sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 30; transform: translateX(-100%); transition: transform 0.3s; }
+    #sidebar.open { transform: translateX(0); }
+    #sidebarOverlay { display: none; }
+    #sidebarOverlay.open { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 20; }
+  }
+
+  /* Feature preview card */
+  .feature-preview {
+    background: var(--panel);
+    border: 2px dashed var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+  }
+  .feature-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(124,92,255,0.2);
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .feature-list {
+    text-align: left;
+    max-width: 400px;
+    margin: 1.5rem auto 0;
+    space-y: 0.5rem;
+  }
+  .feature-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .feature-list li:last-child { border-bottom: none; }
 </style>
 </head>
-<body class="bg-bg text-gray-200 font-sans min-h-screen">
+<body>
 
 <!-- LOGIN -->
 <div id="loginScreen" class="fixed inset-0 flex items-center justify-center bg-bg z-50">
   <div class="text-center max-w-md px-6">
     <div class="text-6xl mb-4">🎮</div>
-    <h1 class="text-4xl font-extrabold mb-2 bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent">LifeQuest</h1>
-    <p class="text-gray-400 mb-8">Track your life. Level up yourself.</p>
-    <button id="btnLogin" class="bg-accent hover:bg-accent/80 transition px-6 py-3 rounded-lg font-semibold text-white inline-flex items-center gap-3 shadow-lg shadow-accent/20">
+    <h1 class="text-4xl font-extrabold mb-2 bg-gradient-to-r from-[#7c5cff] to-[#4ade80] bg-clip-text text-transparent">LifeQuest</h1>
+    <p class="text-muted mb-8">Track your life. Level up yourself.</p>
+    <button id="btnLogin" class="bg-[#7c5cff] hover:bg-[#6b4de8] transition px-6 py-3 rounded-lg font-semibold text-white inline-flex items-center gap-3 shadow-lg shadow-[#7c5cff]/20">
       <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C41 35.3 44 30 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg>
       Login dengan Google
     </button>
@@ -97,69 +203,72 @@
 
 <!-- LOADING -->
 <div id="loadingScreen" class="fixed inset-0 flex items-center justify-center bg-bg z-40 hidden">
-  <div class="text-center"><div class="loader"></div><p class="text-gray-400 text-sm">Memuat data...</p></div>
+  <div class="text-center"><div class="loader"></div><p class="text-muted text-sm">Memuat data...</p></div>
 </div>
 
 <!-- APP -->
 <div id="app" class="hidden">
+  <div id="sidebarOverlay"></div>
   <div class="flex h-screen overflow-hidden">
-    <aside class="w-64 bg-panel border-r border-border flex-shrink-0 flex flex-col">
+    <aside id="sidebar" class="w-64 bg-panel border-r border-border flex-shrink-0 flex flex-col">
       <div class="p-4 border-b border-border">
         <div class="flex items-center gap-2 mb-4">
           <span class="text-2xl">🎮</span>
-          <span class="font-extrabold text-lg bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent">LifeQuest</span>
+          <span class="font-extrabold text-lg bg-gradient-to-r from-[#7c5cff] to-[#4ade80] bg-clip-text text-transparent">LifeQuest</span>
         </div>
-        <div class="flex items-center gap-3 p-2 rounded-lg bg-bg/50">
+        <div class="flex items-center gap-3 p-2 rounded-lg bg-bg">
           <img id="userPhoto" class="w-9 h-9 rounded-full" alt="" />
           <div class="flex-1 min-w-0">
             <div id="userName" class="text-sm font-semibold truncate">...</div>
-            <div id="userLevel" class="text-xs text-gray-400">Level 1</div>
+            <div id="userLevel" class="text-xs text-muted">Level 1</div>
           </div>
         </div>
       </div>
       <nav class="flex-1 overflow-y-auto p-3 space-y-1">
-        <div class="text-xs font-semibold text-gray-500 uppercase px-3 pt-3 pb-1">Utama</div>
+        <div class="text-xs font-semibold text-dim uppercase px-3 pt-3 pb-1">Utama</div>
         <a data-page="dashboard" class="nav-item active">📊 Dashboard</a>
         <a data-page="habits" class="nav-item">🔥 Habits</a>
         <a data-page="tasks" class="nav-item">✅ Tasks</a>
-        <div class="text-xs font-semibold text-gray-500 uppercase px-3 pt-4 pb-1">Kehidupan</div>
+        <div class="text-xs font-semibold text-dim uppercase px-3 pt-4 pb-1">Kehidupan</div>
         <a data-page="journal" class="nav-item">📔 Journal</a>
         <a data-page="goals" class="nav-item">🎯 Goals</a>
         <a data-page="finance" class="nav-item">💰 Finance</a>
         <a data-page="notes" class="nav-item">📝 Notes</a>
-        <div class="text-xs font-semibold text-gray-500 uppercase px-3 pt-4 pb-1">Karakter</div>
-        <a data-page="avatar" class="nav-item">🧙 Avatar</a>
-        <a data-page="shop" class="nav-item">🛒 Shop</a>
-        <a data-page="stats" class="nav-item">📈 Stats</a>
-        <div class="text-xs font-semibold text-gray-500 uppercase px-3 pt-4 pb-1">Lainnya</div>
+        <div class="text-xs font-semibold text-dim uppercase px-3 pt-4 pb-1">Karakter</div>
+        <a data-page="avatar" class="nav-item">🧙 Avatar <span class="text-xs bg-[#7c5cff]/20 text-[#a78bfa] px-1.5 py-0.5 rounded ml-auto">SOON</span></a>
+        <a data-page="shop" class="nav-item">🛒 Shop <span class="text-xs bg-[#7c5cff]/20 text-[#a78bfa] px-1.5 py-0.5 rounded ml-auto">SOON</span></a>
+        <a data-page="stats" class="nav-item">📈 Stats <span class="text-xs bg-[#7c5cff]/20 text-[#a78bfa] px-1.5 py-0.5 rounded ml-auto">SOON</span></a>
+        <div class="text-xs font-semibold text-dim uppercase px-3 pt-4 pb-1">Lainnya</div>
         <a data-page="settings" class="nav-item">⚙️ Settings</a>
       </nav>
       <div class="p-3 border-t border-border">
-        <button id="btnLogout" class="w-full text-sm text-gray-400 hover:text-red-400 transition px-3 py-2 rounded-lg hover:bg-bg text-left">🚪 Logout</button>
+        <button id="btnLogout" class="w-full text-sm text-muted hover:text-red-400 transition px-3 py-2 rounded-lg hover:bg-bg text-left">🚪 Logout</button>
       </div>
     </aside>
 
     <main class="flex-1 flex flex-col overflow-hidden">
-      <header class="bg-panel border-b border-border px-6 py-3 flex items-center gap-4 flex-wrap">
+      <header class="bg-panel border-b border-border px-4 md:px-6 py-3 flex items-center gap-3 md:gap-4 flex-wrap">
+        <button id="toggleSidebar" class="md:hidden text-muted text-xl">☰</button>
         <div class="flex items-center gap-2">
           <span class="text-lg">❤️</span>
-          <div class="w-32 h-2 bg-bg rounded-full overflow-hidden"><div id="hpBar" class="h-full bg-red-500" style="width:100%"></div></div>
-          <span id="hpText" class="text-xs text-gray-400 font-mono">100/100</span>
+          <div class="w-20 md:w-32 h-2 bg-bg rounded-full overflow-hidden"><div id="hpBar" class="h-full bg-red-500" style="width:100%"></div></div>
+          <span id="hpText" class="text-xs text-muted font-mono hidden md:inline">100/100</span>
         </div>
         <div class="flex items-center gap-2">
           <span class="text-lg">⭐</span>
-          <div class="w-32 h-2 bg-bg rounded-full overflow-hidden"><div id="xpBar" class="h-full bg-accent" style="width:0%"></div></div>
-          <span id="xpText" class="text-xs text-gray-400 font-mono">0/100</span>
+          <div class="w-20 md:w-32 h-2 bg-bg rounded-full overflow-hidden"><div id="xpBar" class="h-full bg-[#7c5cff]" style="width:0%"></div></div>
+          <span id="xpText" class="text-xs text-muted font-mono hidden md:inline">0/100</span>
         </div>
         <div class="flex items-center gap-1.5"><span class="text-lg">🪙</span><span id="goldText" class="text-sm font-semibold">0</span></div>
         <div class="flex items-center gap-1.5"><span class="text-lg">🔥</span><span id="streakText" class="text-sm font-semibold">0</span></div>
         <div class="flex-1"></div>
-        <div class="bg-accent/20 border border-accent/40 rounded-lg px-3 py-1">
-          <span class="text-xs text-gray-400">Level</span>
-          <span id="levelText" class="text-lg font-bold text-accent ml-1">1</span>
+        <button id="btnThemeToggle" class="w-9 h-9 rounded-lg hover:bg-bg transition flex items-center justify-center text-lg" title="Ganti mode">🌙</button>
+        <div class="bg-[#7c5cff]/20 border border-[#7c5cff]/40 rounded-lg px-3 py-1">
+          <span class="text-xs text-muted">Level</span>
+          <span id="levelText" class="text-lg font-bold text-[#a78bfa] ml-1">1</span>
         </div>
       </header>
-      <div id="content" class="flex-1 overflow-y-auto p-6"></div>
+      <div id="content" class="flex-1 overflow-y-auto p-4 md:p-6"></div>
     </main>
   </div>
 </div>
@@ -527,8 +636,13 @@ function toast(msg, type = "info") {
 async function applyReward(amount) {
   const uid = state.user.uid;
   const p = state.profile;
-  let newXp = p.xp + amount.xp;
-  let newGold = Math.max(0, p.gold + amount.gold);
+  const bonus = hitungBonus();
+const boosted = {
+  xp: Math.round(amount.xp * (1 + bonus.xp / 100)),
+  gold: Math.round(amount.gold * (1 + bonus.gold / 100))
+};
+let newXp = p.xp + boosted.xp;
+let newGold = Math.max(0, p.gold + boosted.gold);
   let newLevel = p.level;
   let newXpNeeded = p.xpNeeded;
   let leveledUp = false;
@@ -628,6 +742,28 @@ onAuthStateChanged(auth, async (user) => {
       if (state.currentPage === "finance") renderFinance();
       if (state.currentPage === "dashboard") renderDashboard();
     });
+
+    onValue(ref(db, `users/${user.uid}/finance`), (s) => {
+      state.finance = s.exists() ? s.val() : {};
+      if (state.currentPage === "finance") renderFinance();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/inventory`), (s) => {
+      state.inventory = s.exists() ? s.val() : {};
+      if (state.currentPage === "shop") renderShop();
+      if (state.currentPage === "avatar") renderAvatar();
+    });
+
+    onValue(ref(db, `users/${user.uid}/equipped`), (s) => {
+      state.equipped = s.exists() ? s.val() : {};
+      if (state.currentPage === "shop") renderShop();
+      if (state.currentPage === "avatar") renderAvatar();
+    });
+
+    $("loadingScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    navigateTo("dashboard");
 
     $("loadingScreen").classList.add("hidden");
     $("app").classList.remove("hidden");
@@ -2046,6 +2182,1253 @@ $("btnSaveTx").addEventListener("click", async () => {
   }
   closeTxModal();
 });
+
+// ===== INIT =====
+window.addEventListener("load", () => {
+  if (new Date().getHours() < 4) {
+    setTimeout(() => toast("🌙 Reset harian jam 04:00 — habit hari ini belum reset", "info"), 2000);
+  }
+});
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getDatabase, ref, get, set, update, onValue, push, remove } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAx8Dr9iRq2wte15pMQEgKJKkq4tcYPwAM",
+  authDomain: "life-update-50a09.firebaseapp.com",
+  databaseURL: "https://life-update-50a09-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "life-update-50a09",
+  storageBucket: "life-update-50a09.firebasestorage.app",
+  messagingSenderId: "235547119353",
+  appId: "1:235547119353:web:98a658126c04cfc09a9c28"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+const googleProvider = new GoogleAuthProvider();
+
+const state = {
+  user: null, profile: null,
+  habits: {}, tasks: {}, journal: {}, goals: {}, notes: {}, finance: {},
+  currentPage: "dashboard",
+  editingHabitId: null, editingTaskId: null, editingGoalId: null, editingNoteId: null, editingTxId: null,
+  taskFilter: "aktif", journalMonth: new Date(), noteFolderFilter: "all", noteSearch: "",
+  subtasksTemp: [], milestonesTemp: [], selectedMood: 3,
+  financeFilter: "bulan",
+theme: "dark",
+inventory: {}, equipped: {},
+shopFilter: "all", shopSlotFilter: "all"
+};
+
+// ===== HELPERS =====
+const $ = (id) => document.getElementById(id);
+const todayKey = () => {
+  const d = new Date();
+  if (d.getHours() < 4) d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+};
+const isHabitDoneToday = (habit) => habit.riwayat && habit.riwayat[todayKey()];
+const daysBetween = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
+const fmtDate = (ts) => {
+  if (!ts) return "";
+  const d = new Date(ts);
+  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+};
+const fmtRupiah = (n) => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+const esc = (s) => String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+// Simple markdown parser
+function md(text) {
+  if (!text) return "";
+  let html = esc(text);
+  html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>');
+  html = html.replace(/^> (.*)$/gm, '<blockquote>$1</blockquote>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/`(.+?)`/g, '<code>$1</code>');
+  html = html.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>');
+  html = html.replace(/^- (.*)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = '<p>' + html + '</p>';
+  html = html.replace(/<p>\s*(<h[123]|<ul|<blockquote)/g, '$1');
+  html = html.replace(/(<\/h[123]>|<\/ul>|<\/blockquote>)\s*<\/p>/g, '$1');
+  return html;
+}
+
+// ===== THEME =====
+function applyTheme(theme) {
+  state.theme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  $("btnThemeToggle").textContent = theme === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('lq_theme', theme);
+}
+
+async function toggleTheme() {
+  const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+  if (state.user) {
+    try {
+      await update(ref(db, `users/${state.user.uid}/profile`), { theme: newTheme });
+    } catch (e) { console.warn("Gagal simpan tema:", e); }
+  }
+}
+
+$("btnThemeToggle").addEventListener("click", toggleTheme);
+
+// ===== MOBILE SIDEBAR =====
+const sidebar = $("sidebar");
+const overlay = $("sidebarOverlay");
+$("toggleSidebar").addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("open");
+});
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("open");
+});
+
+// ===== GAMIFICATION =====
+const REWARD = {
+  rendah:  { xp: 10, gold: 5 },
+  sedang:  { xp: 20, gold: 10 },
+  tinggi:  { xp: 35, gold: 20 },
+  negatif: { xp: -10, gold: -5 },
+};
+const XP_FOR_LEVEL = (lvl) => Math.floor(100 * Math.pow(lvl, 1.5));
+
+function toast(msg, type = "info") {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = msg;
+  if (type === "success") el.style.borderColor = "#4ade80";
+  if (type === "error") el.style.borderColor = "#ef4444";
+  if (type === "level") { el.style.borderColor = "#7c5cff"; el.style.fontWeight = "bold"; }
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3200);
+}
+
+async function applyReward(amount) {
+  const uid = state.user.uid;
+  const p = state.profile;
+  let newXp = p.xp + amount.xp;
+  let newGold = Math.max(0, p.gold + amount.gold);
+  let newLevel = p.level;
+  let newXpNeeded = p.xpNeeded;
+  let leveledUp = false;
+
+  while (newXp >= newXpNeeded) {
+    newXp -= newXpNeeded;
+    newLevel += 1;
+    newXpNeeded = XP_FOR_LEVEL(newLevel);
+    leveledUp = true;
+  }
+  if (newXp < 0) newXp = 0;
+
+  await update(ref(db, `users/${uid}/profile`), {
+    xp: newXp, xpNeeded: newXpNeeded, gold: newGold, level: newLevel
+  });
+
+  return leveledUp ? newLevel : null;
+}
+
+// ===== AUTH =====
+$("btnLogin").addEventListener("click", async () => {
+  try {
+    $("btnLogin").disabled = true;
+    $("btnLogin").textContent = "Loading...";
+    await signInWithPopup(auth, googleProvider);
+  } catch (err) {
+    console.error(err);
+    $("loginError").textContent = "Gagal login: " + err.message;
+    $("loginError").classList.remove("hidden");
+    $("btnLogin").disabled = false;
+    $("btnLogin").textContent = "Login dengan Google";
+  }
+});
+
+$("btnLogout").addEventListener("click", async () => {
+  if (confirm("Yakin mau logout?")) await signOut(auth);
+});
+
+// Load tema dari localStorage SEBELUM login
+applyTheme(localStorage.getItem('lq_theme') || 'dark');
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    state.user = user;
+    $("loginScreen").classList.add("hidden");
+    $("loadingScreen").classList.remove("hidden");
+    $("userPhoto").src = user.photoURL || "";
+    $("userName").textContent = user.displayName || "Player";
+
+    const profileRef = ref(db, `users/${user.uid}/profile`);
+    const snap = await get(profileRef);
+    if (!snap.exists()) {
+      await set(profileRef, {
+        nama: user.displayName || "Player", photo: user.photoURL || "",
+        level: 1, xp: 0, xpNeeded: 100, gold: 0,
+        hp: 100, hpMax: 100, streak: 0,
+        theme: state.theme,
+        lastLogin: Date.now(), createdAt: Date.now()
+      });
+    } else {
+      await update(profileRef, { lastLogin: Date.now() });
+      // Load tema dari profile
+      const p = snap.val();
+      if (p.theme) applyTheme(p.theme);
+    }
+
+    onValue(profileRef, (s) => {
+      if (!s.exists()) return;
+      state.profile = s.val();
+      renderTopBar(state.profile);
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/habits`), (s) => {
+      state.habits = s.exists() ? s.val() : {};
+      if (state.currentPage === "habits") renderHabits();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/tasks`), (s) => {
+      state.tasks = s.exists() ? s.val() : {};
+      if (state.currentPage === "tasks") renderTasks();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/journal`), (s) => {
+      state.journal = s.exists() ? s.val() : {};
+      if (state.currentPage === "journal") renderJournal();
+    });
+
+    onValue(ref(db, `users/${user.uid}/goals`), (s) => {
+      state.goals = s.exists() ? s.val() : {};
+      if (state.currentPage === "goals") renderGoals();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    onValue(ref(db, `users/${user.uid}/notes`), (s) => {
+      state.notes = s.exists() ? s.val() : {};
+      if (state.currentPage === "notes") renderNotes();
+    });
+
+    onValue(ref(db, `users/${user.uid}/finance`), (s) => {
+      state.finance = s.exists() ? s.val() : {};
+      if (state.currentPage === "finance") renderFinance();
+      if (state.currentPage === "dashboard") renderDashboard();
+    });
+
+    $("loadingScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    navigateTo("dashboard");
+  } else {
+    state.user = null; state.profile = null;
+    state.habits = {}; state.tasks = {}; state.journal = {}; state.goals = {}; state.notes = {}; state.finance = {};
+    $("loginScreen").classList.remove("hidden");
+    $("loadingScreen").classList.add("hidden");
+    $("app").classList.add("hidden");
+    $("btnLogin").disabled = false;
+    $("btnLogin").textContent = "Login dengan Google";
+  }
+});
+
+// ===== TOP BAR =====
+function renderTopBar(p) {
+  $("hpBar").style.width = Math.max(0, (p.hp / p.hpMax * 100)) + "%";
+  $("hpText").textContent = `${p.hp}/${p.hpMax}`;
+  $("xpBar").style.width = Math.min(100, (p.xp / p.xpNeeded * 100)) + "%";
+  $("xpText").textContent = `${p.xp}/${p.xpNeeded}`;
+  $("goldText").textContent = p.gold;
+  $("streakText").textContent = p.streak;
+  $("levelText").textContent = p.level;
+  $("userLevel").textContent = `Level ${p.level}`;
+}
+
+// ===== NAVIGASI =====
+document.querySelectorAll(".nav-item").forEach((item) => {
+  item.addEventListener("click", () => {
+    navigateTo(item.dataset.page);
+    sidebar.classList.remove("open");
+    overlay.classList.remove("open");
+  });
+});
+
+function navigateTo(page) {
+  state.currentPage = page;
+  document.querySelectorAll(".nav-item").forEach((i) => i.classList.toggle("active", i.dataset.page === page));
+  const content = $("content");
+  const pages = {
+    dashboard: renderDashboard,
+    habits: renderHabits,
+    tasks: renderTasks,
+    journal: renderJournal,
+    goals: renderGoals,
+    finance: renderFinance,
+    notes: renderNotes,
+    avatar: renderAvatar,
+shop: renderShop,
+stats: renderStats,
+settings: renderSettings,
+  };
+  content.innerHTML = "";
+  (pages[page] || renderDashboard)();
+}
+
+// ===== FEATURE PREVIEW (Avatar/Shop/Stats/Settings) =====
+const FEATURES = {
+  avatar: {
+    icon: '🧙',
+    title: 'Avatar & Equipment',
+    desc: 'Kustomisasi karakter kamu dengan equipment yang bikin XP & Gold makin cepat!',
+    features: [
+      '🎨 Avatar SVG sederhana — warna kulit & rambut bisa diganti',
+      '🪖 6 slot equipment: Helm, Armor, Senjata, Sepatu, Aksesoris, Punggung',
+      '⚡ Setiap item punya efek: +5% s/d +20% XP atau Gold',
+      '🎁 Set lengkap (1 tema) → bonus +20% semua stats',
+      '🏆 Item langka butuh achievement (contoh: streak 30 hari)'
+    ]
+  },
+  shop: {
+    icon: '🛒',
+    title: 'Shop',
+    desc: 'Belanja equipment pakai Gold yang kamu kumpulin dari habits & tasks.',
+    features: [
+      '💰 Tier item: Common (100-500), Rare (500-2000), Epic (2000-5000), Legendary (5000+)',
+      '🎯 Beberapa item butuh level minimum atau achievement',
+      '⚡ Efek item langsung aktif begitu di-equip',
+      '📦 Inventory: simpan item yang belum dipakai',
+      '🔄 Bisa jual balik item (dapat 50% gold)'
+    ]
+  },
+  stats: {
+    icon: '📈',
+    title: 'Statistics',
+    desc: 'Lihat progress & pattern hidupmu dalam bentuk visual.',
+    features: [
+      '🔥 Heatmap ala GitHub — kontribusi harian (habits + tasks)',
+      '📊 Line chart: XP per hari/minggu/bulan',
+      '📉 Bar chart: habit completion rate',
+      '🥧 Donut chart: distribusi kategori (health/study/work)',
+      '📝 Weekly review: ringkasan otomatis setiap minggu'
+    ]
+  },
+  settings: {
+    icon: '⚙️',
+    title: 'Settings',
+    desc: 'Atur preferensi aplikasi.',
+    features: [
+      '🎨 Tema: Dark / Light',
+      '🔔 Notifikasi reminder (opsional)',
+      '📤 Export data ke JSON',
+      '📥 Import data dari JSON',
+      '🗑️ Reset data (hati-hati!)'
+    ]
+  }
+};
+
+function renderFeaturePreview(key) {
+  const f = FEATURES[key];
+  if (!f) return;
+  $("content").innerHTML = `
+    <div class="max-w-3xl mx-auto">
+      <div class="feature-preview">
+        <span class="feature-badge">🚧 SEGERA HADIR</span>
+        <div class="text-6xl mb-4">${f.icon}</div>
+        <h1 class="text-3xl font-bold mb-2">${f.title}</h1>
+        <p class="text-muted mb-6">${f.desc}</p>
+        <div class="feature-list">
+          <div class="text-xs font-semibold text-dim uppercase mb-2 text-left">Yang bakal kamu dapet:</div>
+          <ul>${f.features.map(x => `<li>${x}</li>`).join('')}</ul>
+        </div>
+        <div class="mt-6 text-xs text-dim">
+          Fitur ini bakal rilis di update berikutnya. Stay tuned! 🎉
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderPlaceholder(title, subtitle) {
+  $("content").innerHTML = `
+    <div class="flex flex-col items-center justify-center h-full text-center">
+      <div class="text-6xl mb-4">🚧</div>
+      <h2 class="text-2xl font-bold mb-2">${title}</h2>
+      <p class="text-muted">${subtitle}</p>
+    </div>`;
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+  const p = state.profile || {};
+  const habits = Object.entries(state.habits).map(([id, h]) => ({ id, ...h }));
+  const tasks = Object.entries(state.tasks).map(([id, t]) => ({ id, ...t }));
+  const goals = Object.entries(state.goals).map(([id, g]) => ({ id, ...g }));
+  const journal = Object.entries(state.journal).map(([id, j]) => ({ id, ...j }));
+  const pinnedNotes = Object.entries(state.notes).map(([id, n]) => ({ id, ...n })).filter(n => n.pinned);
+  const doneToday = habits.filter(h => isHabitDoneToday(h)).length;
+  const tasksPending = tasks.filter(t => !t.selesai);
+
+  const now = new Date();
+  const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const monthTx = Object.entries(state.finance).map(([id, t]) => ({ id, ...t })).filter(t => t.tanggal && t.tanggal.startsWith(thisMonth));
+  const totalIncome = monthTx.filter(t => t.tipe === 'income').reduce((s, t) => s + Number(t.jumlah), 0);
+  const totalExpense = monthTx.filter(t => t.tipe === 'expense').reduce((s, t) => s + Number(t.jumlah), 0);
+
+  const sortedJournal = journal.sort((a, b) => (b.tanggal || '').localeCompare(a.tanggal || ''));
+  const lastJournal = sortedJournal[0];
+
+  $("content").innerHTML = `
+    <div class="max-w-6xl">
+      <h1 class="text-3xl font-bold mb-1">Halo, ${esc(p.nama) || "Player"} 👋</h1>
+      <p class="text-muted mb-8">${new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-3xl mb-2">⭐</div>
+          <div class="text-2xl font-bold">${p.xp || 0}</div>
+          <div class="text-sm text-muted">Total XP</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-3xl mb-2">🪙</div>
+          <div class="text-2xl font-bold">${p.gold || 0}</div>
+          <div class="text-sm text-muted">Gold</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-3xl mb-2">🔥</div>
+          <div class="text-2xl font-bold">${p.streak || 0}</div>
+          <div class="text-sm text-muted">Streak</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <div class="text-3xl mb-2">✅</div>
+          <div class="text-2xl font-bold">${doneToday}/${habits.length}</div>
+          <div class="text-sm text-muted">Habits Hari Ini</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-panel border border-border rounded-xl p-6">
+          <h3 class="font-bold mb-3 flex items-center justify-between">
+            <span>🔥 Habits Hari Ini</span>
+            <span class="text-xs text-muted">${doneToday}/${habits.length}</span>
+          </h3>
+          ${habits.length === 0 
+            ? `<p class="text-muted text-sm">Belum ada habit. Buka halaman <b>Habits</b>!</p>`
+            : `<div class="space-y-2">
+                ${habits.slice(0, 5).map(h => `
+                  <div class="bg-bg border ${isHabitDoneToday(h) ? 'border-green-500/50' : 'border-border'} rounded-lg p-3 flex items-center gap-3">
+                    <span class="text-2xl">${h.emoji || '📌'}</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-sm font-semibold truncate">${esc(h.nama)}</div>
+                      <div class="text-xs text-muted">🔥 ${h.streak || 0} hari</div>
+                    </div>
+                    ${isHabitDoneToday(h) ? '<span class="text-green-400">✅</span>' : '<span class="text-dim">⏳</span>'}
+                  </div>`).join('')}
+              </div>`}
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl p-6">
+          <h3 class="font-bold mb-3 flex items-center justify-between">
+            <span>✅ Tasks Aktif</span>
+            <span class="text-xs text-muted">${tasksPending.length} pending</span>
+          </h3>
+          ${tasksPending.length === 0 
+            ? `<p class="text-muted text-sm">Gak ada task aktif. Santai dulu 🎉</p>`
+            : `<div class="space-y-2">
+                ${tasksPending.slice(0, 5).map(t => `
+                  <div class="bg-bg border border-border rounded-lg p-3 flex items-center gap-3">
+                    <span class="text-lg">${t.prioritas === 'tinggi' ? '🔴' : t.prioritas === 'sedang' ? '🟡' : '🟢'}</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-sm font-semibold truncate">${esc(t.judul)}</div>
+                      ${t.deadline ? `<div class="text-xs text-muted">📅 ${fmtDate(t.deadline)}</div>` : ''}
+                    </div>
+                  </div>`).join('')}
+              </div>`}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <h3 class="font-bold mb-3">🎯 Goals Aktif</h3>
+          ${goals.length === 0 
+            ? `<p class="text-muted text-sm">Belum ada goal</p>`
+            : `<div class="space-y-3">
+                ${goals.slice(0, 3).map(g => {
+                  const mTotal = g.milestones ? Object.keys(g.milestones).length : 0;
+                  const mDone = g.milestones ? Object.values(g.milestones).filter(m => m.selesai).length : 0;
+                  const pct = mTotal > 0 ? Math.round(mDone / mTotal * 100) : 0;
+                  return `<div>
+                    <div class="text-xs text-muted mb-1 truncate">${esc(g.kategori || '')} ${esc(g.judul)}</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+                    <div class="text-xs text-dim mt-1">${mDone}/${mTotal} milestone (${pct}%)</div>
+                  </div>`;
+                }).join('')}
+              </div>`}
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <h3 class="font-bold mb-3">💰 Bulan Ini</h3>
+          ${monthTx.length === 0 
+            ? `<p class="text-muted text-sm">Belum ada transaksi</p>`
+            : `<div class="space-y-2">
+                <div class="flex justify-between text-sm">
+                  <span class="text-muted">Pemasukan</span>
+                  <span class="text-green-400 font-semibold">${fmtRupiah(totalIncome)}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-muted">Pengeluaran</span>
+                  <span class="text-red-400 font-semibold">${fmtRupiah(totalExpense)}</span>
+                </div>
+                <div class="flex justify-between text-sm pt-2 border-t border-border">
+                  <span class="text-muted">Sisa</span>
+                  <span class="font-bold ${(totalIncome - totalExpense) >= 0 ? 'text-green-400' : 'text-red-400'}">${fmtRupiah(totalIncome - totalExpense)}</span>
+                </div>
+              </div>`}
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl p-5">
+          <h3 class="font-bold mb-3">📔 Journal Terakhir</h3>
+          ${!lastJournal 
+            ? `<p class="text-muted text-sm">Belum ada journal</p>`
+            : `<div>
+                <div class="text-xs text-muted mb-2">${lastJournal.tanggal}</div>
+                <div class="text-3xl mb-2">${['😢','😕','😐','🙂','😄'][(lastJournal.mood || 3) - 1]}</div>
+                <div class="text-sm line-clamp-3">${esc((lastJournal.text || '').slice(0, 100))}${(lastJournal.text || '').length > 100 ? '...' : ''}</div>
+              </div>`}
+        </div>
+      </div>
+
+      ${pinnedNotes.length > 0 ? `
+        <div class="mt-6">
+          <h3 class="font-bold mb-3">📌 Pinned Notes</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${pinnedNotes.slice(0, 6).map(n => `
+              <div class="bg-panel border border-yellow-500/40 rounded-xl p-4 cursor-pointer hover:border-yellow-400 transition" data-open-note="${n.id}">
+                <div class="font-semibold mb-1 truncate">📌 ${esc(n.judul)}</div>
+                <div class="text-xs text-muted line-clamp-2">${esc((n.isi || '').slice(0, 80))}...</div>
+              </div>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+    </div>`;
+
+  document.querySelectorAll("[data-open-note]").forEach(el => {
+    el.addEventListener("click", () => openNoteModal(el.dataset.openNote));
+  });
+}
+
+// ============ HABITS ============
+
+// ===== ITEMS / SHOP DATABASE =====
+const SHOP_ITEMS = {
+  // HELM
+  topi_bambu:    { nama: "Topi Bambu",       emoji: "🎩", slot: "helm",      tier: "common",    harga: 100,  efek: { xp: 5 },              desc: "+5% XP" },
+  bandana:       { nama: "Bandana Merah",    emoji: "🧢", slot: "helm",      tier: "common",    harga: 150,  efek: { gold: 5 },            desc: "+5% Gold" },
+  topi_wizard:   { nama: "Topi Wizard",      emoji: "🧙", slot: "helm",      tier: "rare",      harga: 800,  efek: { xp: 12 },             desc: "+12% XP" },
+  mahkota:       { nama: "Mahkota Raja",     emoji: "👑", slot: "helm",      tier: "epic",      harga: 3000, efek: { xp: 18, gold: 10 },   desc: "+18% XP, +10% Gold" },
+  // ARMOR
+  kaos:          { nama: "Kaos Basic",       emoji: "👕", slot: "armor",     tier: "common",    harga: 100,  efek: { xp: 5 },              desc: "+5% XP" },
+  jaket:         { nama: "Jaket Hoodie",     emoji: "🧥", slot: "armor",     tier: "common",    harga: 200,  efek: { gold: 5 },            desc: "+5% Gold" },
+  baju_ksatria:  { nama: "Baju Ksatria",     emoji: "🛡️", slot: "armor",     tier: "rare",      harga: 1000, efek: { xp: 10, gold: 5 },    desc: "+10% XP, +5% Gold" },
+  jubah_naga:    { nama: "Jubah Naga",       emoji: "🐉", slot: "armor",     tier: "legendary", harga: 6000, efek: { xp: 25, gold: 15 },   desc: "+25% XP, +15% Gold", butuhLevel: 10 },
+  // SENJATA
+  pensil:        { nama: "Pensil Ajaib",     emoji: "✏️", slot: "senjata",   tier: "common",    harga: 80,   efek: { xp: 5 },              desc: "+5% XP" },
+  buku:          { nama: "Buku Tebal",       emoji: "📚", slot: "senjata",   tier: "common",    harga: 150,  efek: { xp: 7 },              desc: "+7% XP" },
+  laptop:        { nama: "Laptop Coding",    emoji: "💻", slot: "senjata",   tier: "rare",      harga: 1500, efek: { xp: 15 },             desc: "+15% XP" },
+  pedang_eks:    { nama: "Pedang Excalibur", emoji: "⚔️", slot: "senjata",   tier: "epic",      harga: 3500, efek: { xp: 20, gold: 10 },   desc: "+20% XP, +10% Gold" },
+  // SEPATU
+  sandal:        { nama: "Sandal Jepit",     emoji: "🩴", slot: "sepatu",    tier: "common",    harga: 60,   efek: { gold: 3 },            desc: "+3% Gold" },
+  sneakers:      { nama: "Sneakers Putih",   emoji: "👟", slot: "sepatu",    tier: "common",    harga: 200,  efek: { xp: 5, gold: 5 },     desc: "+5% XP, +5% Gold" },
+  boots:         { nama: "Boots Petualang",  emoji: "🥾", slot: "sepatu",    tier: "rare",      harga: 900,  efek: { xp: 12 },             desc: "+12% XP" },
+  sepatu_angin:  { nama: "Sepatu Angin",     emoji: "💨", slot: "sepatu",    tier: "epic",      harga: 2500, efek: { xp: 18 },             desc: "+18% XP" },
+  // AKSESORIS
+  kacamata:      { nama: "Kacamata Pintar",  emoji: "👓", slot: "aksesoris", tier: "common",    harga: 120,  efek: { xp: 5 },              desc: "+5% XP" },
+  jam_tangan:    { nama: "Jam Tangan",       emoji: "⌚", slot: "aksesoris", tier: "common",    harga: 180,  efek: { gold: 5 },            desc: "+5% Gold" },
+  kalung_permata:{ nama: "Kalung Permata",   emoji: "💎", slot: "aksesoris", tier: "rare",      harga: 1200, efek: { xp: 10, gold: 10 },   desc: "+10% XP, +10% Gold" },
+  cincin_emas:   { nama: "Cincin Emas",      emoji: "💍", slot: "aksesoris", tier: "epic",      harga: 2800, efek: { gold: 25 },           desc: "+25% Gold" },
+  // PUNGGUNG
+  tas:           { nama: "Tas Ransel",       emoji: "🎒", slot: "punggung",  tier: "common",    harga: 100,  efek: { xp: 5 },              desc: "+5% XP" },
+  sayap_malaikat:{ nama: "Sayap Malaikat",   emoji: "🪽", slot: "punggung",  tier: "rare",      harga: 2000, efek: { xp: 15 },             desc: "+15% XP" },
+  cape_hero:     { nama: "Cape Hero",        emoji: "🦸", slot: "punggung",  tier: "epic",      harga: 3000, efek: { xp: 15, gold: 15 },   desc: "+15% XP, +15% Gold" },
+  sayap_naga:    { nama: "Sayap Naga",       emoji: "🐲", slot: "punggung",  tier: "legendary", harga: 7000, efek: { xp: 30, gold: 20 },   desc: "+30% XP, +20% Gold", butuhLevel: 15, butuhStreak: 30 },
+};
+
+const TIER_COLOR = {
+  common:    { bg: "rgba(156,163,175,0.15)", border: "#9ca3af", text: "#9ca3af", label: "Common" },
+  rare:      { bg: "rgba(96,165,250,0.15)",  border: "#60a5fa", text: "#60a5fa", label: "Rare" },
+  epic:      { bg: "rgba(168,85,247,0.15)",  border: "#a855f7", text: "#a855f7", label: "Epic" },
+  legendary: { bg: "rgba(251,191,36,0.15)",  border: "#fbbf24", text: "#fbbf24", label: "Legendary" },
+};
+
+// Hitung bonus stats dari equipment
+function hitungBonus() {
+  const inv = state.inventory || {};
+  const equipped = state.equipped || {};
+  let bonusXp = 0, bonusGold = 0;
+  const setSlots = {};
+
+  Object.entries(equipped).forEach(([slot, itemId]) => {
+    const item = SHOP_ITEMS[itemId];
+    if (!item) return;
+    bonusXp += item.efek.xp || 0;
+    bonusGold += item.efek.gold || 0;
+    setSlots[item.tier] = (setSlots[item.tier] || 0) + 1;
+  });
+
+  // Set lengkap (semua 6 slot terisi)
+  const totalEquipped = Object.keys(equipped).length;
+  const setBonus = totalEquipped >= 6 ? 20 : 0;
+
+  return { xp: bonusXp + setBonus, gold: bonusGold + setBonus, setBonus };
+}
+
+// Apply bonus ke reward
+function applyBonusToReward(reward) {
+  const bonus = hitungBonus();
+  return {
+    xp: Math.round(reward.xp * (1 + bonus.xp / 100)),
+    gold: Math.round(reward.gold * (1 + bonus.gold / 100))
+  };
+}
+
+// ===== AVATAR PAGE =====
+function renderAvatar() {
+  const p = state.profile || {};
+  const equipped = state.equipped || {};
+  const inventory = state.inventory || {};
+  const ownedIds = Object.keys(inventory);
+  const bonus = hitungBonus();
+
+  const slots = [
+    { key: "helm",      label: "Helm",       emoji: "🪖" },
+    { key: "armor",     label: "Armor",      emoji: "👕" },
+    { key: "senjata",   label: "Senjata",    emoji: "⚔️" },
+    { key: "sepatu",    label: "Sepatu",     emoji: "👟" },
+    { key: "aksesoris", label: "Aksesoris",  emoji: "💍" },
+    { key: "punggung",  label: "Punggung",   emoji: "🎒" },
+  ];
+
+  $("content").innerHTML = `
+    <div class="max-w-5xl">
+      <h1 class="text-3xl font-bold mb-1">🧙 Avatar</h1>
+      <p class="text-muted text-sm mb-6">Kustomisasi karaktermu. Equipment nambah bonus XP & Gold!</p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Avatar Display -->
+        <div class="bg-panel border border-border rounded-xl p-6 flex flex-col items-center">
+          <div class="text-xs text-dim uppercase mb-3">Karakter Kamu</div>
+          <div class="bg-bg rounded-2xl p-6 mb-4">
+            ${renderAvatarSVG(equipped)}
+          </div>
+          <div class="text-center">
+            <div class="font-bold text-lg">${esc(p.nama || "Player")}</div>
+            <div class="text-sm text-muted">Level ${p.level}</div>
+          </div>
+        </div>
+
+        <!-- Equipment Slots -->
+        <div class="lg:col-span-2 bg-panel border border-border rounded-xl p-6">
+          <h3 class="font-bold mb-4">⚙️ Equipment Aktif</h3>
+          
+          <div class="bg-bg border border-border rounded-lg p-4 mb-4">
+            <div class="text-xs text-dim uppercase mb-2">Total Bonus</div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="text-xs text-muted">XP Bonus</div>
+                <div class="text-2xl font-bold text-[#a78bfa]">+${bonus.xp}%</div>
+              </div>
+              <div>
+                <div class="text-xs text-muted">Gold Bonus</div>
+                <div class="text-2xl font-bold text-yellow-400">+${bonus.gold}%</div>
+              </div>
+            </div>
+            ${bonus.setBonus > 0 ? `<div class="mt-3 text-xs text-green-400">🎁 Set lengkap! Bonus +${bonus.setBonus}% semua stats</div>` : `<div class="mt-3 text-xs text-dim">Equip 6 item buat dapet bonus set lengkap (+20%)</div>`}
+          </div>
+
+          <div class="space-y-2">
+            ${slots.map(s => {
+              const itemId = equipped[s.key];
+              const item = itemId ? SHOP_ITEMS[itemId] : null;
+              return `
+                <div class="flex items-center gap-3 bg-bg border border-border rounded-lg p-3">
+                  <div class="text-2xl w-8 text-center">${s.emoji}</div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-xs text-dim">${s.label}</div>
+                    ${item 
+                      ? `<div class="font-semibold text-sm">${item.emoji} ${esc(item.nama)}</div>
+                         <div class="text-xs" style="color:${TIER_COLOR[item.tier].text}">${item.desc}</div>`
+                      : `<div class="text-sm text-dim italic">Kosong</div>`}
+                  </div>
+                  ${item ? `<button data-unequip="${s.key}" class="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded transition">Lepas</button>` : ''}
+                </div>`;
+            }).join('')}
+          </div>
+
+          <button onclick="document.querySelector('[data-page=shop]').click()" class="w-full mt-4 bg-[#7c5cff] hover:bg-[#6b4de8] text-white py-2 rounded-lg text-sm font-semibold transition">
+            🛒 Pergi ke Shop
+          </button>
+        </div>
+      </div>
+    </div>`;
+
+  document.querySelectorAll("[data-unequip]").forEach(el => {
+    el.addEventListener("click", () => unequipItem(el.dataset.unequip));
+  });
+}
+
+function renderAvatarSVG(equipped) {
+  const helm = equipped.helm ? SHOP_ITEMS[equipped.helm].emoji : '';
+  const armor = equipped.armor ? SHOP_ITEMS[equipped.armor].emoji : '';
+  const senjata = equipped.senjata ? SHOP_ITEMS[equipped.senjata].emoji : '';
+  const sepatu = equipped.sepatu ? SHOP_ITEMS[equipped.sepatu].emoji : '';
+  const aksesoris = equipped.aksesoris ? SHOP_ITEMS[equipped.aksesoris].emoji : '';
+  const punggung = equipped.punggung ? SHOP_ITEMS[equipped.punggung].emoji : '';
+
+  return `
+    <svg width="180" height="220" viewBox="0 0 180 220">
+      <!-- Punggung (belakang) -->
+      ${punggung ? `<text x="20" y="120" font-size="60" opacity="0.5">${punggung}</text>` : ''}
+      
+      <!-- Badan -->
+      <rect x="60" y="90" width="60" height="70" rx="10" fill="#7c5cff" opacity="0.8"/>
+      
+      <!-- Kepala -->
+      <circle cx="90" cy="65" r="30" fill="#fcd34d"/>
+      
+      <!-- Mata -->
+      <circle cx="80" cy="62" r="3" fill="#1f2937"/>
+      <circle cx="100" cy="62" r="3" fill="#1f2937"/>
+      
+      <!-- Senyum -->
+      <path d="M 80 75 Q 90 82 100 75" stroke="#1f2937" stroke-width="2" fill="none" stroke-linecap="round"/>
+      
+      <!-- Tangan -->
+      <rect x="40" y="95" width="18" height="50" rx="8" fill="#fcd34d"/>
+      <rect x="122" y="95" width="18" height="50" rx="8" fill="#fcd34d"/>
+      
+      <!-- Kaki -->
+      <rect x="68" y="160" width="18" height="40" rx="6" fill="#1f2937"/>
+      <rect x="94" y="160" width="18" height="40" rx="6" fill="#1f2937"/>
+      
+      <!-- Equipment overlay -->
+      ${helm ? `<text x="90" y="50" text-anchor="middle" font-size="40">${helm}</text>` : ''}
+      ${armor ? `<text x="90" y="130" text-anchor="middle" font-size="45">${armor}</text>` : ''}
+      ${senjata ? `<text x="140" y="140" font-size="38">${senjata}</text>` : ''}
+      ${sepatu ? `<text x="90" y="200" text-anchor="middle" font-size="30">${sepatu}</text>` : ''}
+      ${aksesoris ? `<text x="110" y="80" font-size="22">${aksesoris}</text>` : ''}
+    </svg>`;
+}
+
+async function unequipItem(slot) {
+  const uid = state.user.uid;
+  await remove(ref(db, `users/${uid}/equipped/${slot}`));
+  toast("Item dilepas", "info");
+}
+
+// ===== SHOP PAGE =====
+function renderShop() {
+  const p = state.profile || {};
+  const inventory = state.inventory || {};
+  const equipped = state.equipped || {};
+  const ownedIds = Object.keys(inventory);
+
+  const filter = state.shopFilter || "all";
+  const slotFilter = state.shopSlotFilter || "all";
+
+  let items = Object.entries(SHOP_ITEMS);
+  if (filter !== "all") items = items.filter(([_, i]) => i.tier === filter);
+  if (slotFilter !== "all") items = items.filter(([_, i]) => i.slot === slotFilter);
+
+  $("content").innerHTML = `
+    <div class="max-w-5xl">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-1">🛒 Shop</h1>
+          <p class="text-muted text-sm">${ownedIds.length}/${Object.keys(SHOP_ITEMS).length} item dimiliki</p>
+        </div>
+        <div class="bg-yellow-500/20 border border-yellow-500/40 rounded-lg px-4 py-2">
+          <span class="text-xs text-muted">Gold kamu</span>
+          <div class="text-xl font-bold text-yellow-400">🪙 ${p.gold || 0}</div>
+        </div>
+      </div>
+
+      <div class="mb-4 flex gap-2 flex-wrap">
+        <button class="filter-btn ${filter==='all'?'active':''}" data-shop-tier="all">Semua Tier</button>
+        <button class="filter-btn ${filter==='common'?'active':''}" data-shop-tier="common">⚪ Common</button>
+        <button class="filter-btn ${filter==='rare'?'active':''}" data-shop-tier="rare">🔵 Rare</button>
+        <button class="filter-btn ${filter==='epic'?'active':''}" data-shop-tier="epic">🟣 Epic</button>
+        <button class="filter-btn ${filter==='legendary'?'active':''}" data-shop-tier="legendary">🟡 Legendary</button>
+      </div>
+
+      <div class="mb-4 flex gap-2 flex-wrap">
+        <button class="filter-btn ${slotFilter==='all'?'active':''}" data-shop-slot="all">Semua Slot</button>
+        <button class="filter-btn ${slotFilter==='helm'?'active':''}" data-shop-slot="helm">🪖 Helm</button>
+        <button class="filter-btn ${slotFilter==='armor'?'active':''}" data-shop-slot="armor">👕 Armor</button>
+        <button class="filter-btn ${slotFilter==='senjata'?'active':''}" data-shop-slot="senjata">⚔️ Senjata</button>
+        <button class="filter-btn ${slotFilter==='sepatu'?'active':''}" data-shop-slot="sepatu">👟 Sepatu</button>
+        <button class="filter-btn ${slotFilter==='aksesoris'?'active':''}" data-shop-slot="aksesoris">💍 Aksesoris</button>
+        <button class="filter-btn ${slotFilter==='punggung'?'active':''}" data-shop-slot="punggung">🎒 Punggung</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        ${items.map(([id, item]) => shopCard(id, item, inventory, equipped, p)).join('')}
+      </div>
+    </div>`;
+
+  document.querySelectorAll("[data-shop-tier]").forEach(el => {
+    el.addEventListener("click", () => { state.shopFilter = el.dataset.shopTier; renderShop(); });
+  });
+  document.querySelectorAll("[data-shop-slot]").forEach(el => {
+    el.addEventListener("click", () => { state.shopSlotFilter = el.dataset.shopSlot; renderShop(); });
+  });
+  document.querySelectorAll("[data-buy]").forEach(el => {
+    el.addEventListener("click", () => buyItem(el.dataset.buy));
+  });
+  document.querySelectorAll("[data-equip]").forEach(el => {
+    el.addEventListener("click", () => equipItem(el.dataset.equip));
+  });
+  document.querySelectorAll("[data-sell]").forEach(el => {
+    el.addEventListener("click", () => sellItem(el.dataset.sell));
+  });
+}
+
+function shopCard(id, item, inventory, equipped, profile) {
+  const owned = !!inventory[id];
+  const isEquipped = Object.values(equipped).includes(id);
+  const canAfford = (profile.gold || 0) >= item.harga;
+  const levelOk = !item.butuhLevel || profile.level >= item.butuhLevel;
+  const streakOk = !item.butuhStreak || profile.streak >= item.butuhStreak;
+  const canBuy = canAfford && levelOk && streakOk && !owned;
+
+  const tc = TIER_COLOR[item.tier];
+
+  return `
+    <div class="bg-panel border-2 rounded-xl p-4 transition hover:-translate-y-1" style="border-color:${tc.border}; background: ${tc.bg}">
+      <div class="flex items-start justify-between mb-2">
+        <div class="text-4xl">${item.emoji}</div>
+        <div class="text-xs font-semibold px-2 py-1 rounded" style="background:${tc.border}; color:white">${tc.label}</div>
+      </div>
+      <div class="font-bold mb-1">${esc(item.nama)}</div>
+      <div class="text-xs text-muted mb-1">Slot: ${item.slot}</div>
+      <div class="text-xs mb-3" style="color:${tc.text}">${item.desc}</div>
+      ${item.butuhLevel ? `<div class="text-xs ${profile.level >= item.butuhLevel ? 'text-green-400' : 'text-red-400'}">🔒 Butuh Level ${item.butuhLevel}</div>` : ''}
+      ${item.butuhStreak ? `<div class="text-xs ${profile.streak >= item.butuhStreak ? 'text-green-400' : 'text-red-400'}">🔥 Butuh Streak ${item.butuhStreak} hari</div>` : ''}
+
+      <div class="mt-3 flex items-center justify-between">
+        <div class="font-bold text-yellow-400">🪙 ${item.harga}</div>
+        <div class="flex gap-1">
+          ${isEquipped 
+            ? `<button class="text-xs bg-green-500/20 text-green-400 px-3 py-1.5 rounded-lg" disabled>✓ Dipakai</button>`
+            : owned 
+              ? `<button data-equip="${id}" class="text-xs bg-[#7c5cff] hover:bg-[#6b4de8] text-white px-3 py-1.5 rounded-lg transition font-semibold">Pakai</button>
+                 <button data-sell="${id}" class="text-xs bg-red-500/20 hover:bg-red-500/30 text-red-400 px-2 py-1.5 rounded-lg transition" title="Jual (dapat 50% gold)">💸</button>`
+              : `<button data-buy="${id}" ${canBuy ? '' : 'disabled'} class="text-xs ${canBuy ? 'bg-[#7c5cff] hover:bg-[#6b4de8] text-white font-semibold' : 'bg-gray-700 text-gray-500 cursor-not-allowed'} px-3 py-1.5 rounded-lg transition">Beli</button>`}
+        </div>
+      </div>
+    </div>`;
+}
+
+async function buyItem(itemId) {
+  const item = SHOP_ITEMS[itemId];
+  if (!item) return;
+  const p = state.profile;
+  if (p.gold < item.harga) { toast("Gold gak cukup!", "error"); return; }
+  if (item.butuhLevel && p.level < item.butuhLevel) { toast(`Butuh Level ${item.butuhLevel}`, "error"); return; }
+  if (item.butuhStreak && p.streak < item.butuhStreak) { toast(`Butuh Streak ${item.butuhStreak} hari`, "error"); return; }
+
+  if (!confirm(`Beli ${item.nama} seharga ${item.harga} gold?`)) return;
+
+  const uid = state.user.uid;
+  const updates = {};
+  updates[`users/${uid}/profile/gold`] = p.gold - item.harga;
+  updates[`users/${uid}/inventory/${itemId}`] = { dibeliAt: Date.now(), harga: item.harga };
+  await update(ref(db), updates);
+  toast(`✅ ${item.nama} dibeli!`, "success");
+}
+
+async function equipItem(itemId) {
+  const item = SHOP_ITEMS[itemId];
+  if (!item) return;
+  await set(ref(db, `users/${state.user.uid}/equipped/${item.slot}`), itemId);
+  toast(`⚡ ${item.nama} dipakai!`, "success");
+}
+
+async function sellItem(itemId) {
+  const item = SHOP_ITEMS[itemId];
+  if (!item) return;
+  const refund = Math.floor(item.harga * 0.5);
+  if (!confirm(`Jual ${item.nama}? Kamu dapat ${refund} gold (50%).`)) return;
+
+  const uid = state.user.uid;
+  const p = state.profile;
+  const equipped = state.equipped || {};
+
+  // Cek kalau item ini lagi dipakai
+  if (Object.values(equipped).includes(itemId)) {
+    await remove(ref(db, `users/${uid}/equipped/${item.slot}`));
+  }
+  await remove(ref(db, `users/${uid}/inventory/${itemId}`));
+  await update(ref(db, `users/${uid}/profile`), { gold: p.gold + refund });
+  toast(`💸 ${item.nama} dijual. +${refund} gold`, "success");
+}
+
+// ===== STATS PAGE =====
+function renderStats() {
+  const p = state.profile || {};
+  const habits = Object.entries(state.habits).map(([id, h]) => ({ id, ...h }));
+  const tasks = Object.entries(state.tasks).map(([id, t]) => ({ id, ...t }));
+  const journal = Object.entries(state.journal).map(([id, j]) => ({ id, ...j }));
+  const goals = Object.entries(state.goals).map(([id, g]) => ({ id, ...g }));
+  const finance = Object.entries(state.finance).map(([id, t]) => ({ id, ...t }));
+
+  // Heatmap 365 hari
+  const heatmapData = generateHeatmap(habits, tasks);
+
+  // XP per hari (7 hari terakhir)
+  const xpLast7 = generateXpLast7(habits, tasks);
+
+  // Kategori finance
+  const catMap = {};
+  finance.filter(t => t.tipe === 'expense').forEach(t => {
+    catMap[t.kategori] = (catMap[t.kategori] || 0) + Number(t.jumlah);
+  });
+  const catSorted = Object.entries(catMap).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const catTotal = catSorted.reduce((s, [_, v]) => s + v, 0);
+
+  $("content").innerHTML = `
+    <div class="max-w-6xl">
+      <h1 class="text-3xl font-bold mb-1">📈 Statistics</h1>
+      <p class="text-muted text-sm mb-6">Lihat progress hidupmu dalam bentuk visual.</p>
+
+      <!-- Summary -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-panel border border-border rounded-xl p-4">
+          <div class="text-xs text-muted mb-1">Level</div>
+          <div class="text-3xl font-bold text-[#a78bfa]">${p.level}</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-4">
+          <div class="text-xs text-muted mb-1">Total XP</div>
+          <div class="text-3xl font-bold text-[#a78bfa]">${p.xp}</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-4">
+          <div class="text-xs text-muted mb-1">Habits</div>
+          <div class="text-3xl font-bold">${habits.length}</div>
+        </div>
+        <div class="bg-panel border border-border rounded-xl p-4">
+          <div class="text-xs text-muted mb-1">Streak</div>
+          <div class="text-3xl font-bold text-orange-400">${p.streak}</div>
+        </div>
+      </div>
+
+      <!-- Heatmap -->
+      <div class="bg-panel border border-border rounded-xl p-6 mb-6">
+        <h3 class="font-bold mb-3">🔥 Heatmap Aktivitas (1 tahun terakhir)</h3>
+        <div class="overflow-x-auto">
+          <div class="inline-flex gap-1">
+            ${heatmapData.map(week => `
+              <div class="flex flex-col gap-1">
+                ${week.map(day => day ? `
+                  <div class="w-3 h-3 rounded-sm" style="background:${getHeatColor(day.count)}" title="${day.date}: ${day.count} aktivitas"></div>
+                ` : `<div class="w-3 h-3"></div>`).join('')}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="flex items-center gap-2 mt-3 text-xs text-muted">
+          <span>Sedikit</span>
+          <div class="w-3 h-3 rounded-sm" style="background:${getHeatColor(0)}"></div>
+          <div class="w-3 h-3 rounded-sm" style="background:${getHeatColor(1)}"></div>
+          <div class="w-3 h-3 rounded-sm" style="background:${getHeatColor(3)}"></div>
+          <div class="w-3 h-3 rounded-sm" style="background:${getHeatColor(6)}"></div>
+          <div class="w-3 h-3 rounded-sm" style="background:${getHeatColor(10)}"></div>
+          <span>Banyak</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <!-- XP Chart 7 hari -->
+        <div class="bg-panel border border-border rounded-xl p-6">
+          <h3 class="font-bold mb-3">📊 XP 7 Hari Terakhir</h3>
+          <div class="flex items-end justify-between gap-2 h-40">
+            ${xpLast7.map(d => `
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="text-xs text-muted">${d.xp}</div>
+                <div class="w-full rounded-t transition-all" style="height:${Math.max(4, d.xp / Math.max(1, Math.max(...xpLast7.map(x => x.xp))) * 120)}px; background:linear-gradient(180deg, #7c5cff, #4ade80)"></div>
+                <div class="text-xs text-dim">${d.label}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Kategori Finance -->
+        <div class="bg-panel border border-border rounded-xl p-6">
+          <h3 class="font-bold mb-3">💰 Pengeluaran per Kategori</h3>
+          ${catSorted.length === 0 
+            ? `<p class="text-muted text-sm">Belum ada data</p>`
+            : `<div class="space-y-3">
+                ${catSorted.map(([cat, amt]) => {
+                  const pct = catTotal > 0 ? Math.round(amt / catTotal * 100) : 0;
+                  return `<div>
+                    <div class="flex justify-between text-sm mb-1">
+                      <span>${esc(cat)}</span>
+                      <span class="text-muted">${fmtRupiah(amt)} (${pct}%)</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+                  </div>`;
+                }).join('')}
+              </div>`}
+        </div>
+      </div>
+
+      <!-- Weekly Review -->
+      <div class="bg-panel border border-border rounded-xl p-6">
+        <h3 class="font-bold mb-3">📝 Weekly Review</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div>
+            <div class="text-xs text-muted">Habits selesai</div>
+            <div class="text-2xl font-bold">${countHabitsLast7(habits)}</div>
+          </div>
+          <div>
+            <div class="text-xs text-muted">Tasks selesai</div>
+            <div class="text-2xl font-bold">${countTasksLast7(tasks)}</div>
+          </div>
+          <div>
+            <div class="text-xs text-muted">Journal entries</div>
+            <div class="text-2xl font-bold">${journal.filter(j => isWithinLast7(j.tanggal)).length}</div>
+          </div>
+          <div>
+            <div class="text-xs text-muted">Goals selesai</div>
+            <div class="text-2xl font-bold">${goals.filter(g => g.milestones && Object.values(g.milestones).every(m => m.selesai)).length}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function generateHeatmap(habits, tasks) {
+  const weeks = [];
+  const today = new Date();
+  const startDate = new Date(today);
+  startDate.setDate(startDate.getDate() - 364);
+
+  // Find Sunday before start
+  const startSunday = new Date(startDate);
+  startSunday.setDate(startSunday.getDate() - startSunday.getDay());
+
+  let currentWeek = [];
+  let current = new Date(startSunday);
+  const endDate = new Date(today);
+
+  while (current <= endDate) {
+    const dateStr = `${current.getFullYear()}-${String(current.getMonth()+1).padStart(2,'0')}-${String(current.getDate()).padStart(2,'0')}`;
+    
+    if (current < startDate) {
+      currentWeek.push(null);
+    } else {
+      let count = 0;
+      habits.forEach(h => { if (h.riwayat && h.riwayat[dateStr]) count++; });
+      tasks.forEach(t => { if (t.selesaiAt) {
+        const d = new Date(t.selesaiAt);
+        const dStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        if (dStr === dateStr) count++;
+      }});
+      currentWeek.push({ date: dateStr, count });
+    }
+
+    if (current.getDay() === 6) {
+      weeks.push(currentWeek);
+      currentWeek = [];
+    }
+    current.setDate(current.getDate() + 1);
+  }
+  if (currentWeek.length > 0) weeks.push(currentWeek);
+  return weeks;
+}
+
+function getHeatColor(count) {
+  if (count === 0) return 'rgba(124,92,255,0.08)';
+  if (count <= 1) return 'rgba(124,92,255,0.3)';
+  if (count <= 3) return 'rgba(124,92,255,0.55)';
+  if (count <= 6) return 'rgba(124,92,255,0.8)';
+  return '#7c5cff';
+}
+
+function generateXpLast7(habits, tasks) {
+  const result = [];
+  const dayNames = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    let xp = 0;
+    habits.forEach(h => {
+      if (h.riwayat && h.riwayat[dateStr]) {
+        const r = REWARD[h.prioritas] || REWARD.sedang;
+        xp += h.tipe === 'negatif' ? -10 : r.xp;
+      }
+    });
+    tasks.forEach(t => {
+      if (t.selesaiAt) {
+        const td = new Date(t.selesaiAt);
+        const tStr = `${td.getFullYear()}-${String(td.getMonth()+1).padStart(2,'0')}-${String(td.getDate()).padStart(2,'0')}`;
+        if (tStr === dateStr) {
+          const r = REWARD[t.prioritas] || REWARD.sedang;
+          xp += r.xp;
+        }
+      }
+    });
+    result.push({ date: dateStr, xp: Math.max(0, xp), label: dayNames[d.getDay()] });
+  }
+  return result;
+}
+
+function isWithinLast7(dateStr) {
+  if (!dateStr) return false;
+  const d = new Date(dateStr);
+  const diff = (new Date() - d) / 86400000;
+  return diff >= 0 && diff <= 7;
+}
+
+function countHabitsLast7(habits) {
+  let count = 0;
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    habits.forEach(h => { if (h.riwayat && h.riwayat[dateStr]) count++; });
+  }
+  return count;
+}
+
+function countTasksLast7(tasks) {
+  let count = 0;
+  tasks.forEach(t => {
+    if (t.selesaiAt) {
+      const diff = (Date.now() - t.selesaiAt) / 86400000;
+      if (diff >= 0 && diff <= 7) count++;
+    }
+  });
+  return count;
+}
+
+// ===== SETTINGS PAGE =====
+function renderSettings() {
+  const p = state.profile || {};
+  $("content").innerHTML = `
+    <div class="max-w-3xl">
+      <h1 class="text-3xl font-bold mb-1">⚙️ Settings</h1>
+      <p class="text-muted text-sm mb-6">Atur preferensi aplikasi.</p>
+
+      <div class="bg-panel border border-border rounded-xl p-6 mb-6">
+        <h3 class="font-bold mb-3">🎨 Tampilan</h3>
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="font-semibold">Mode Tema</div>
+            <div class="text-xs text-muted">Saat ini: ${state.theme === 'dark' ? '🌙 Gelap' : '☀️ Terang'}</div>
+          </div>
+          <button onclick="document.getElementById('btnThemeToggle').click()" class="bg-[#7c5cff] hover:bg-[#6b4de8] text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+            Ganti Mode
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-panel border border-border rounded-xl p-6 mb-6">
+        <h3 class="font-bold mb-3">📤 Export / Import Data</h3>
+        <p class="text-xs text-muted mb-4">Backup data kamu ke file JSON. Berguna kalau mau pindah device atau reset.</p>
+        <div class="flex gap-2 flex-wrap">
+          <button id="btnExport" class="bg-green-500/20 hover:bg-green-500/30 text-green-400 px-4 py-2 rounded-lg text-sm font-semibold transition">📥 Export JSON</button>
+          <label class="bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 px-4 py-2 rounded-lg text-sm font-semibold transition cursor-pointer">
+            📤 Import JSON
+            <input id="fileImport" type="file" accept=".json" class="hidden" />
+          </label>
+        </div>
+      </div>
+
+      <div class="bg-panel border border-red-500/30 rounded-xl p-6">
+        <h3 class="font-bold mb-3 text-red-400">⚠️ Danger Zone</h3>
+        <p class="text-xs text-muted mb-4">Aksi di bawah ini permanen dan gak bisa di-undo. Hati-hati!</p>
+        <button id="btnResetData" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-lg text-sm font-semibold transition">🗑️ Reset Semua Data</button>
+      </div>
+
+      <div class="text-center text-xs text-dim mt-8">
+        LifeQuest v1.0 · Made with ❤️
+      </div>
+    </div>`;
+
+  $("btnExport").addEventListener("click", exportData);
+  $("fileImport").addEventListener("change", importData);
+  $("btnResetData").addEventListener("click", resetData);
+}
+
+function exportData() {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    profile: state.profile,
+    habits: state.habits,
+    tasks: state.tasks,
+    journal: state.journal,
+    goals: state.goals,
+    notes: state.notes,
+    finance: state.finance,
+    inventory: state.inventory,
+    equipped: state.equipped
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `lifequest-backup-${todayKey()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("Data di-export!", "success");
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!confirm("Import data? Data saat ini bakal ditimpa.")) return;
+      const uid = state.user.uid;
+      const updates = {};
+      ['profile','habits','tasks','journal','goals','notes','finance','inventory','equipped'].forEach(key => {
+        if (data[key]) updates[`users/${uid}/${key}`] = data[key];
+      });
+      await update(ref(db), updates);
+      toast("Data berhasil di-import!", "success");
+      setTimeout(() => location.reload(), 1000);
+    } catch (err) {
+      console.error(err);
+      toast("File JSON gak valid", "error");
+    }
+  };
+  reader.readAsText(file);
+}
+
+async function resetData() {
+  if (!confirm("YAKIN? Semua data (habits, tasks, journal, dll) bakal dihapus permanen!")) return;
+  if (!confirm("Beneran yakin? Ini gak bisa di-undo!")) return;
+  const uid = state.user.uid;
+  await remove(ref(db, `users/${uid}/habits`));
+  await remove(ref(db, `users/${uid}/tasks`));
+  await remove(ref(db, `users/${uid}/journal`));
+  await remove(ref(db, `users/${uid}/goals`));
+  await remove(ref(db, `users/${uid}/notes`));
+  await remove(ref(db, `users/${uid}/finance`));
+  await remove(ref(db, `users/${uid}/inventory`));
+  await remove(ref(db, `users/${uid}/equipped`));
+  await update(ref(db, `users/${uid}/profile`), { level: 1, xp: 0, xpNeeded: 100, gold: 0, hp: 100, streak: 0 });
+  toast("Semua data direset", "info");
+  setTimeout(() => location.reload(), 1000);
+}
 
 // ===== INIT =====
 window.addEventListener("load", () => {
